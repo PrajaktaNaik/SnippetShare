@@ -7,15 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 	
 	@Id
-	private String id;
+	private String userId;
 	private String userName;
 	private String password;
 	
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getUserName() {
 		return userName;
@@ -31,7 +31,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password="
+		return "User [id=" + userId + ", userName=" + userName + ", password="
 				+ password + "]";
 	}
 }
