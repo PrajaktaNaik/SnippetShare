@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.User;
 import com.cmpe275.snippetshare.dbconfigs.MongoConfig;
 
@@ -33,17 +34,13 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		ApplicationContext ctx = 
+	/*	ApplicationContext ctx = 
 	             new AnnotationConfigApplicationContext(MongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+		*/
 		
-		User user = new User();
-		user.setUserName("Kunalll");
-		user.setPassword("barveee");
+		UserManager.createUser("prajakta", "naik");
 		
-		mongoOperation.save(user);
-		
-		System.out.println("User" + user.toString());
 		
 		return "home";
 	}
