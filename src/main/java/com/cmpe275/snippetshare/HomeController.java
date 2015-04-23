@@ -11,6 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -45,4 +46,18 @@ public class HomeController {
 		return "home";
 	}
 	
-}
+	@RequestMapping(value="/user/signup", method=RequestMethod.POST)
+	public String user_signup(@RequestBody User user ){
+		
+		UserManager.addUser(user);
+		return "";
+	}
+	
+	@RequestMapping(value="/user/login",method=RequestMethod.POST)
+		public String user_login(@RequestBody User user){
+		
+		UserManager.loginUser(user);
+			return "";
+		}
+	}
+
