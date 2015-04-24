@@ -5,9 +5,10 @@ import com.cmpe275.snippetshare.Model.User;
 
 public class UserManager {
 
-	public static void createUser(String userName, String password) {
+	public static void createUser(String email, String password) {
 		User user = new User();
-		user.setUserName(userName);
+		//user.setUserName(userName);
+		user.setEmail(email);
 		user.setPassword(password);
 		
 		UserDao.saveUser(user);
@@ -23,18 +24,25 @@ public class UserManager {
 		
 		boolean is_valid_user=is_user_exists(user);
 		 if(is_valid_user==true)
-			 System.out.println("valid user");
+			 System.out.println("valid user.login");
 		 else 
 			 System.out.println("invalid user");
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static boolean is_user_exists(User user) {
+	public static boolean is_user_exists(User user) {
 		return UserDao.is_user_exists(user);
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public static boolean is_user_email_exists(User user) {
+		return UserDao.is_user_email_exists(user);
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	//create user,search user,update,delete user
 }

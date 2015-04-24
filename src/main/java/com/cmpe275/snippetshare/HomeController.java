@@ -47,10 +47,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/user/signup", method=RequestMethod.POST)
-	public String user_signup(@RequestBody User user ){
-		
+	public String user_signup(@RequestBody User user  ){
+		if(!UserManager.is_user_email_exists(user)){
 		UserManager.addUser(user);
-		return "";
+		return "Created user account successfully!!";
+		}else
+		return "User already exists.Login";
 	}
 	
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)
