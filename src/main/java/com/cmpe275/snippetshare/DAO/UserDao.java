@@ -9,7 +9,7 @@ import com.cmpe275.snippetshare.dbconfigs.MongoConfig;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 
-public class UserDao {
+public class UserDAO {
 
 	static MongoOperations mongoOperation = null;
 	public static void saveUser(User user) {
