@@ -6,9 +6,6 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.User;
-import com.cmpe275.snippetshare.dbconfigs.MongoConfig;
 
 @Controller
 public class HomeController {
@@ -49,10 +45,10 @@ public class HomeController {
 	@RequestMapping(value="/user/signup", method=RequestMethod.POST)
 	public String user_signup(@RequestBody User user  ){
 		if(!UserManager.is_user_email_exists(user)){
-		UserManager.addUser(user);
-		return "Created user account successfully!!";
+			UserManager.addUser(user);
+			return "Created user account successfully!!";
 		}else
-		return "User already exists.Login";
+			return "User already exists.Login";
 	}
 	
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)

@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.cmpe275.snippetshare.Model.User;
+import com.cmpe275.snippetshare.Utility.Utility;
 import com.cmpe275.snippetshare.dbconfigs.MongoConfig;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -24,7 +25,7 @@ public class UserDao {
 		//User userdata=mongoOperation.findOne(new Query(Criteria where("_id") is()), User.class, "user");
 		Query searchUserQuery = new Query(Criteria.where("email").is(user.getEmail()));
 		User userdata= mongoOperation.findOne(searchUserQuery,User.class,"user");
-		if(userdata==null || userdata.getPassword()!=user.getPassword()){
+		if(userdata==null || userdata.getPassword()!= Utility.getEncryptedValue(user.getPassword())){
 			System.out.println("Invalid Username or password");
 			return false;
 		}

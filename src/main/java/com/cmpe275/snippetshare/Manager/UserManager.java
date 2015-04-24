@@ -2,6 +2,7 @@ package com.cmpe275.snippetshare.Manager;
 
 import com.cmpe275.snippetshare.DAO.UserDao;
 import com.cmpe275.snippetshare.Model.User;
+import com.cmpe275.snippetshare.Utility.Utility;
 
 public class UserManager {
 
@@ -15,32 +16,26 @@ public class UserManager {
 	}
 
 	public static void addUser(User user) {
+		String password = user.getPassword();
+		String encryptedPass = Utility.getEncryptedValue(password);
+		user.setPassword(encryptedPass);
 		UserDao.saveUser(user);
-		// TODO Auto-generated method stub
-		
 	}
 
 	public static void loginUser(User user) {
-		
 		boolean is_valid_user=is_user_exists(user);
 		 if(is_valid_user==true)
 			 System.out.println("valid user.login");
 		 else 
 			 System.out.println("invalid user");
-		// TODO Auto-generated method stub
-		
 	}
 
 	public static boolean is_user_exists(User user) {
 		return UserDao.is_user_exists(user);
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public static boolean is_user_email_exists(User user) {
 		return UserDao.is_user_email_exists(user);
-		// TODO Auto-generated method stub
-		
 	}
 
 
