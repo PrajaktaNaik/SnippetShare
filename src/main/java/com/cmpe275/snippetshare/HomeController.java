@@ -20,6 +20,7 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	//---------------------------------------------Generic Mappings------------------------------------------------------------
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -31,16 +32,11 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-	/*	ApplicationContext ctx = 
-	             new AnnotationConfigApplicationContext(MongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
-		*/
-		
-		UserManager.createUser("prajakta", "naik");
-		
-		
+//		UserManager.createUser("prajakta", "naik");
 		return "home";
 	}
+	
+	//---------------------------------------------User Mappings------------------------------------------------------------
 	
 	@RequestMapping(value="/user/signup", method=RequestMethod.POST)
 	public String user_signup(@RequestBody User user  ){
@@ -52,10 +48,16 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)
-		public String user_login(@RequestBody User user){
-		
+	public String user_login(@RequestBody User user){
 		UserManager.loginUser(user);
-			return "";
-		}
+		return "";
 	}
-
+	
+	//---------------------------------------------Board Mappings------------------------------------------------------------
+	
+	//---------------------------------------------Category Mappings------------------------------------------------------------
+	
+	//---------------------------------------------Snippet Mappings------------------------------------------------------------
+	
+	//---------------------------------------------Comment Mappings------------------------------------------------------------
+}

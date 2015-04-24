@@ -5,6 +5,7 @@ import com.mongodb.util.Base64Codec;
 
 public class Utility {
 	
+	//Method to encrypt the given plain text
 	public static String getEncryptedValue(String plainText){
 		String hashedValue = "";
 		try {

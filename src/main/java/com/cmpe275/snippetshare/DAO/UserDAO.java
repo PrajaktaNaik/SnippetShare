@@ -1,13 +1,12 @@
 package com.cmpe275.snippetshare.DAO;
 
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.cmpe275.snippetshare.Model.User;
+import com.cmpe275.snippetshare.Utility.MongoConfig;
 import com.cmpe275.snippetshare.Utility.Utility;
-import com.cmpe275.snippetshare.dbconfigs.MongoConfig;
-
-import org.springframework.data.mongodb.core.query.Criteria;
 
 public class UserDAO {
 

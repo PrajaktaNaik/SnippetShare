@@ -1,4 +1,4 @@
-package com.cmpe275.snippetshare.dbconfigs;
+package com.cmpe275.snippetshare.Utility;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,13 +16,13 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	protected String getDatabaseName() {
-		return "snippetshare";
+		return ApplicationConstants.DATABASE;
 	}
 
 	@Override
 	@Bean
 	public Mongo mongo() throws Exception {
-		return new MongoClient(new MongoClientURI("mongodb://kunal:cmpe275@ds061757.mongolab.com:61757/snippetshare"));
+		return new MongoClient(new MongoClientURI(ApplicationConstants.URL));
 	}
 	
 	public static MongoOperations getMongoOperationsObj(){
