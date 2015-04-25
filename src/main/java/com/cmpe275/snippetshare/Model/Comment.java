@@ -1,12 +1,7 @@
 package com.cmpe275.snippetshare.Model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "Comment")
 public class Comment {
 	
-	@Id
 	private String commentId;
 	private String content;
 	private String userId;

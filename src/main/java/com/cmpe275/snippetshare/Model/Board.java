@@ -16,7 +16,7 @@ public class Board {
 	private String desciption;
 	private int type;
 	private List<String> sharedWith;
-	private List<String> snippets;
+	private List<Snippet> snippets;
 	
 	public String getBoardId() {
 		return boardId;
@@ -60,13 +60,12 @@ public class Board {
 	public void setSharedWith(List<String> sharedWith) {
 		this.sharedWith = sharedWith;
 	}
-	public List<String> getSnippets() {
+	public List<Snippet> getSnippets() {
 		return snippets;
 	}
-	public void setSnippets(List<String> snippets) {
+	public void setSnippets(List<Snippet> snippets) {
 		this.snippets = snippets;
 	}
-	
 	@Override
 	public String toString() {
 		return "Board [boardId=" + boardId + ", boardName=" + boardName

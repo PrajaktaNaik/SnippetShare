@@ -2,19 +2,14 @@ package com.cmpe275.snippetshare.Model;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "Snippet")
 public class Snippet {
 	
-	@Id
 	private String snippetId;
 	private String ownerId;
 	private String description;
 	private String picture;
 	private int noOfLikes;
-	private List<String> comments;
+	private List<Comment> comments;
 	
 	public String getSnippetId() {
 		return snippetId;
@@ -46,13 +41,13 @@ public class Snippet {
 	public void setNoOfLikes(int noOfLikes) {
 		this.noOfLikes = noOfLikes;
 	}
-	public List<String> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
-	public void setComments(List<String> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Snippet [snippetId=" + snippetId + ", ownerId=" + ownerId
