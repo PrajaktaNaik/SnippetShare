@@ -13,8 +13,8 @@ public class Board {
 	private String boardName;
 	private String ownerId;
 	private String categoryId;
-	private String desciption;
-	private int type;
+	private String description;
+	private String type;
 	private List<String> sharedWith;
 	private List<Snippet> snippets;
 	
@@ -42,16 +42,16 @@ public class Board {
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
-	public String getDesciption() {
-		return desciption;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	public List<String> getSharedWith() {
@@ -70,7 +70,7 @@ public class Board {
 	public String toString() {
 		return "Board [boardId=" + boardId + ", boardName=" + boardName
 				+ ", ownerId=" + ownerId + ", categoryId=" + categoryId
-				+ ", desciption=" + desciption + ", type=" + type
+				+ ", desciption=" + description + ", type=" + type
 				+ ", sharedWith=" + sharedWith + ", snippets=" + snippets + "]";
 	}
 }

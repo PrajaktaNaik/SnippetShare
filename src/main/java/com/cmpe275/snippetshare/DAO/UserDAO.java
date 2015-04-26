@@ -11,6 +11,7 @@ import com.cmpe275.snippetshare.Utility.Utility;
 public class UserDAO {
 
 	static MongoOperations mongoOperation = null;
+	
 	public static void saveUser(User user) {
 		mongoOperation = MongoConfig.getMongoOperationsObj();
 		

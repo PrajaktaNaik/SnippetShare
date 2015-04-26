@@ -13,7 +13,9 @@ import com.mongodb.MongoClientURI;
 
 @Configuration
 public class MongoConfig extends AbstractMongoConfiguration {
-
+	
+	public static MongoOperations mongoOperation = null;
+	
 	@Override
 	protected String getDatabaseName() {
 		return ApplicationConstants.DATABASE;
@@ -26,9 +28,12 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	}
 	
 	public static MongoOperations getMongoOperationsObj(){
-		ApplicationContext ctx = 
-	             new AnnotationConfigApplicationContext(MongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
-		return mongoOperation;
+		if(mongoOperation == null){
+			ApplicationContext appContext = new AnnotationConfigApplicationContext(MongoConfig.class);
+			MongoOperations mongoOperation = (MongoOperations) appContext.getBean("mongoTemplate");
+			return mongoOperation;
+		}else{
+			return mongoOperation;
+		}
 	}
 }
