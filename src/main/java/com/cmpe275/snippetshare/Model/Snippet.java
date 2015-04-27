@@ -4,17 +4,17 @@ import java.util.List;
 
 public class Snippet {
 	
-	private String snippetId;
+	private long snippetId;
 	private String ownerId;
 	private String description;
-	private String picture;
+	private byte[] picture;
 	private int noOfLikes;
 	private List<Comment> comments;
 	
-	public String getSnippetId() {
+	public long getSnippetId() {
 		return snippetId;
 	}
-	public void setSnippetId(String snippetId) {
+	public void setSnippetId(long snippetId) {
 		this.snippetId = snippetId;
 	}
 	public String getOwnerId() {
@@ -29,10 +29,10 @@ public class Snippet {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getPicture() {
+	public byte[] getPicture() {
 		return picture;
 	}
-	public void setPicture(String picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 	public int getNoOfLikes() {

@@ -1,6 +1,7 @@
 package com.cmpe275.snippetshare;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cmpe275.snippetshare.DAO.CommentDAO;
+import com.cmpe275.snippetshare.DAO.SnippetDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
+import com.cmpe275.snippetshare.Manager.CommentManager;
+import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
+import com.cmpe275.snippetshare.Model.Comment;
+import com.cmpe275.snippetshare.Model.Snippet;
 import com.cmpe275.snippetshare.Model.User;
+import com.cmpe275.snippetshare.Utility.ApplicationConstants;
 
 @Controller
 public class HomeController {
@@ -41,14 +49,18 @@ public class HomeController {
 		
 //		ImageManager.withoutUsingGridFS();
 		
-//		ImageTest test = ImageManager.retrieve("", "");
+//		Image test = ImageManager.retrieve("", "");
 		
 		
 //		ImageManager.insert();
 		
-//		ImageTest test = ImageManager.retrieve("","");
+//		Image test = ImageManager.retrieve("","");
 		
 //		model.addAttribute("UserPhoto",new String(Base64.encodeBase64(test.getImage())));
+		
+//		createSnippet();
+		
+//		createComment();
 		
 		return "home";
 	}
@@ -87,6 +99,7 @@ public class HomeController {
 		board.setOwnerId(ownerId);
 		board.setType(type);
 		board.setSharedWith(sharedWith);
+		board.setSnippets(new ArrayList<Snippet>());
 		
 		try {
 			BoardManager.createBoard(board);
@@ -124,5 +137,67 @@ public class HomeController {
 	
 	//---------------------------------------------Snippet Mappings------------------------------------------------------------
 	
+	public String createSnippet(){
+		try {
+			String boardId = "553bd6b81f011d661241c3f1";
+			String ownerId = "Kunal";
+			String description = "First Snippet Insertion";
+			int noOfLikes = 10;
+			long snippetId = SnippetDAO.getNextSnippetId(ApplicationConstants.SNIPPET_SEQ_KEY);
+			List<Comment> comments = new ArrayList<Comment>();;
+			
+			Snippet snippet = new Snippet();
+			snippet.setSnippetId(snippetId);
+			snippet.setOwnerId(ownerId);
+			snippet.setDescription(description);
+			snippet.setComments(comments);
+			snippet.setNoOfLikes(noOfLikes);
+			SnippetManager.addSnippet(boardId, snippet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	public String updateSnippet(){
+		return "";
+	}
+	
+	public String removeSnippet(){
+		return "";
+	}
+	
+	public String likeSnippet(){
+		return "";
+	}
+	
 	//---------------------------------------------Comment Mappings------------------------------------------------------------
+	
+	public String createComment(){
+		
+		try {
+			String boardId = "553bd6b81f011d661241c3f1";
+			long snippetId = 4;
+			long commentId = CommentDAO.getNextCommentId(ApplicationConstants.COMMENT_SEQ_KEY);
+			String userName = "Kunal Barve";
+			String content = "First Comment Insertion";
+
+			Comment comment = new Comment();
+			comment.setCommentId(commentId);
+			comment.setContent(content);
+			comment.setUserName(userName);
+			CommentManager.addComment(boardId, snippetId, comment);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	public String updateComment(){
+		return "";
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
 }

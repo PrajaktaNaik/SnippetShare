@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.cmpe275.snippetshare.Model.ImageTest;
+import com.cmpe275.snippetshare.Model.Image;
 import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class ImageManager {
@@ -22,7 +22,7 @@ public class ImageManager {
             b = new byte[f.available()];
             f.read(b);
             
-            ImageTest test = new ImageTest();
+            Image test = new Image();
             test.setEmpName(empname);
             test.setImage(b);
   
@@ -43,16 +43,16 @@ public class ImageManager {
         }
     }
      
-    public static ImageTest retrieve(String name, String filename)
+    public static Image retrieve(String name, String filename)
     {
-    	ImageTest test = null;
+    	Image test = null;
         try
         {
         	
         	Query query = new Query();
     		query.addCriteria(Criteria.where("id").is("553d6bc41f017eaaeba0010b"));
     		
-    		test = MongoConfig.getMongoOperationsObj().findOne(query, ImageTest.class);
+    		test = MongoConfig.getMongoOperationsObj().findOne(query, Image.class);
     		
     		System.out.println("Emp name"+ test.getEmpName()+"Byte Array: "+test.getImage());
         }
