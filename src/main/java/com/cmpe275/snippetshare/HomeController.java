@@ -36,10 +36,19 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-//		UserManager.createUser("prajakta", "naik");
-		
 //		createBoard();
 //		updateBoard();
+		
+//		ImageManager.withoutUsingGridFS();
+		
+//		ImageTest test = ImageManager.retrieve("", "");
+		
+		
+//		ImageManager.insert();
+		
+//		ImageTest test = ImageManager.retrieve("","");
+		
+//		model.addAttribute("UserPhoto",new String(Base64.encodeBase64(test.getImage())));
 		
 		return "home";
 	}
