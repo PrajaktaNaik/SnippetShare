@@ -18,15 +18,15 @@ public class CommentDAO {
 
 	public static void addComment(String boardId, long snippetId,
 			Comment comment)throws Exception {
-		List<Comment> commentList = getAllComments(boardId, snippetId);
-		commentList.add(comment);
+		/*List<Comment> commentList = getAllComments(boardId, snippetId);
+		commentList.add(comment);*/
 		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("boardId").is(boardId));
 		query.addCriteria(Criteria.where("snippets.snippetId").is(snippetId));
 		
 		Update update = new Update();
-		update.set("snippets.snippetId.comments",commentList);
+		update.push("snippets.comments",comment);
 		
 		MongoConfig.getMongoOperationsObj().findAndModify(query, update, Board.class);
 		

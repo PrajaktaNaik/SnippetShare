@@ -60,7 +60,7 @@ public class HomeController {
 		
 //		createSnippet();
 		
-//		createComment();
+		createComment();
 		
 		return "home";
 	}
