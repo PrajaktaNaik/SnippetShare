@@ -60,7 +60,7 @@ public class HomeController {
 		
 //		createSnippet();
 		
-		createComment();
+		//createComment();
 		
 		return "home";
 	}
@@ -81,6 +81,12 @@ public class HomeController {
 		UserManager.loginUser(user);
 		return "";
 	}
+	
+	@RequestMapping(value="/signup",method=RequestMethod.GET)
+	public String user_signup(){
+		return "signup";
+	}
+	
 	
 	//---------------------------------------------Board Mappings------------------------------------------------------------
 	
