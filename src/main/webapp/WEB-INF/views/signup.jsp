@@ -16,74 +16,82 @@
 </script>
 </head>
 <body>
+<p align="left" class="form-title">
+	Snippet Share
+</p>
 <div class="container">
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 ">
-		<form role="form" method="post" action="/user/signup" style="margin-top:100px;">
-			<h2 style="color: white;">Snippet Share.<small><br><br> SignUp Here</small></h2>
+		<form role="form" method="post" action="user/signUp" style="margin-top:100px;">
+			<h2 style="color: white;">Snippet Share<small><br><br> SignUp Here</small></h2>
 			<hr class="colorgraph">
+			<div class="form-group">
+				<input type="email" name="email" id="email" class="form-control " placeholder="*Email Address" tabindex="1">
+			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-                        <input type="text" name="first_name" id="first_name" class="form-control " placeholder="First Name" tabindex="1">
+                        <input type="text" name="firstName" id="firstName" class="form-control " placeholder="*First Name" tabindex="2">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input type="text" name="last_name" id="last_name" class="form-control " placeholder="Last Name" tabindex="2">
+						<input type="text" name="lastName" id="lastName" class="form-control " placeholder="*Last Name" tabindex="3">
 					</div>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<input type="email" name="email" id="email" class="form-control " placeholder="Email Address" tabindex="4">
-			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input type="password" name="password" id="password" class="form-control " placeholder="Password" tabindex="5">
+						<input type="password" name="password" id="password" class="form-control " placeholder="*Password" tabindex="4">
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control " placeholder="Confirm Password" tabindex="6">
+						<input type="password" name="rePassword" id="rePassword" class="form-control " placeholder="*Confirm Password" tabindex="5">
 					</div>
 				</div>
 			</div>
 		
-			
 			<hr class="colorgraph">
 			<div class="row">
-				<div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-warning btn-block btn-lg" tabindex="7"></div>
-				<div class="col-xs-12 col-md-6"><a href="/snippetshare" class="btn btn-success btn-block btn-lg">Already Member</a></div>
+				<div class="col-xs-12 col-md-6"><input type="button"  onclick="validate();" value="Register" class="btn btn-warning btn-block btn-lg" tabindex="6"></div>
+				<div class="col-xs-12 col-md-6"><a href="/snippetshare" class="btn btn-success btn-block btn-lg" tabindex="7">Already Member</a></div>
 			</div>
 		</form>
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="myModalLabel">Terms &amp; Conditions</h4>
-			</div>
-			<div class="modal-body">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
 </div>
 </body>
+
+<script type="text/javascript">
+	function validate(){
+		var email = document.getElementById("email").value;
+		var password = document.getElementById("password").value;
+		var rePassword = document.getElementById("rePassword").value;
+		var firstName = document.getElementById("firstName").value;
+		var lastName = document.getElementById("lastName").value;
+		
+		/* alert(email+":"+password+":"+rePassword+":"+firstName+":"+lastName); */
+		var msg = "";
+		/* alert(email+":"+password+":"+rePassword+":"+firstName+":"+lastName+":"+dob+":"+address1+":"+city+":"+state+":"+zipCode); */
+		if(email == '' || password == '' || rePassword == '' || firstName == '' || lastName == ''){
+			msg = msg+ "Please enter all mandatory fields (Marked with *).";
+		}
+		
+		if(password != rePassword){
+			msg = msg + "\nBoth passwords are not matching."
+		}
+		
+		if(msg == ""){
+			document.forms[0].submit();					
+		}else{
+			alert(msg);	
+		}
+	}
+</script>
+
 </html>

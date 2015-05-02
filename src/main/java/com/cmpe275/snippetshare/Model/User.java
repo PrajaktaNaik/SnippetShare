@@ -5,13 +5,12 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
+@Document(collection = "User")
 public class User {
 	
 	@Id
-	private String userId;
-	private String password;
 	private String email;
+	private String password;
 	private List<String> followers;
 	private List<String> following;
 	private String profilePicture;
@@ -42,13 +41,6 @@ public class User {
 	public List<String> getFollowing() {
 		return following;
 	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
 	public String getPassword() {
 		return password;
 	}
@@ -64,8 +56,9 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", password=" + password + ", email="
-				+ email + ", fullName=" + fullName + "]";
+		return "User [email=" + email + ", password=" + password
+				+ ", followers=" + followers + ", following=" + following
+				+ ", profilePicture=" + profilePicture + ", fullName="
+				+ fullName + "]";
 	}
-	
 }

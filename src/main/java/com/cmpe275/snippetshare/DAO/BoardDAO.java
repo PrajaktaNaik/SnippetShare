@@ -1,11 +1,16 @@
 package com.cmpe275.snippetshare.DAO;
 
+
+
+import java.util.List;
+
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.cmpe275.snippetshare.Model.Board;
+import com.cmpe275.snippetshare.Model.User;
 import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class BoardDAO {
@@ -33,5 +38,17 @@ public class BoardDAO {
 		}
 		
 	}
+	
+	public static List<Board> getBoards(User user) throws Exception{
+		Query query=new Query();
+		query.addCriteria(Criteria.where("ownerId").is(user.getEmail()));
+		query.fields().exclude("snippets");
+
+		List<Board> allBoards=(List<Board>) MongoConfig.getMongoOperationsObj().find(query, Board.class);
+		return allBoards;
+		
+	}
+	
+
 
 }
