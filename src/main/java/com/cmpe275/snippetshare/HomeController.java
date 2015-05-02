@@ -76,6 +76,15 @@ public class HomeController {
 			return "User already exists.Login";
 	}
 	
+	@RequestMapping(value="/user/editprofile",method=RequestMethod.GET)
+	 public String user_profile(){
+		return "profile";
+	}
+	
+	@RequestMapping(value="/user/addsnippet",method=RequestMethod.GET)
+	 public String user_snippet(){
+		return "addSnippet";
+	}
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)
 	public String user_login(@RequestBody User user){
 		UserManager.loginUser(user);
