@@ -7,7 +7,6 @@ public class Snippet {
 	private long snippetId;
 	private String ownerId;
 	private String description;
-	private byte[] picture;
 	private int noOfLikes;
 	private List<Comment> comments;
 	
@@ -28,12 +27,6 @@ public class Snippet {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public byte[] getPicture() {
-		return picture;
-	}
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
 	}
 	public int getNoOfLikes() {
 		return noOfLikes;

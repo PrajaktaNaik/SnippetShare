@@ -10,6 +10,6 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<%-- <img src="data:image/jpg;base64,${UserPhoto}" id="photo-id"/> --%>
+<img src="data:image/jpg;base64,${UserPhoto}" id="photo-id"/>
 </body>
 </html>
