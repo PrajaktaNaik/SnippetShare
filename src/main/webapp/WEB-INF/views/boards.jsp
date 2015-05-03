@@ -106,7 +106,7 @@
 		
 		            <div class="col-xs-4 selectContainer">
 		                <label class="control-label">Privacy</label>
-		                <select class="form-control" name="privacy">
+		                <select class="form-control" onchange="changeSharedWithAccess('ADD');" id="privacy" name="privacy" >
 		                    <c:forEach items="${boardTypes}" var="boardType">
 								<option value="${boardType}">${boardType}</option>
 							</c:forEach>
@@ -114,12 +114,12 @@
 		            </div>
 		            <div class="col-xs-8">
 		                <label class="control-label">Description</label>
-		                <input type="text" class="form-control" name="boardDescription" />
+		                <input type="text" class="form-control" id="boardDescription" name="boardDescription" />
 		            </div>
 		            
 		             <div class="col-xs-4 selectContainer">
 		                <label class="control-label">Category</label>
-		                <select class="form-control" name="category">
+		                <select class="form-control" id="category" name="category">
 		                    <c:forEach items="${Categories}" var="Category">
 								<option value="${Category.categoryName}">${Category.categoryName}</option>
 							</c:forEach>
@@ -129,7 +129,7 @@
 		            <div class="col-xs-8">
 		                <label class="control-label">Invite People</label>
 		               
-		                <select class="form-control" id = "userList" name="userList" onchange="changeValue('ADD');">
+		                <select class="form-control" id = "userList" name="userList" disabled="true" onchange="changeValue('ADD');">
 		                	<option value=""></option>
 		                    <c:forEach items="${Users}" var="userId">
 								<option value="${userId}">${userId}</option>
@@ -170,7 +170,7 @@
 		
 		            <div class="col-xs-4 selectContainer">
 		                <label class="control-label">Privacy</label>
-		                <select class="form-control" id="privacy2" name="privacy2">
+		                <select class="form-control" id="privacy2" name="privacy2" onchange="changeSharedWithAccess('EDIT');">
 		                    <c:forEach items="${boardTypes}" var="boardType">
 								<option value="${boardType}">${boardType}</option>
 							</c:forEach>
@@ -220,6 +220,26 @@
 	</body>
 	
 	<script type="text/javascript">
+		
+		function changeSharedWithAccess(mode){
+			var privacy;
+			var combo;
+			
+			if(mode == "ADD"){
+				privacy = document.getElementById("privacy").value;
+				combo = document.getElementById("userList");
+			}else if(mode == "EDIT"){
+				privacy = document.getElementById("privacy2").value;
+				combo = document.getElementById("userList2");
+			}
+			
+			if(privacy == "Private"){
+				combo.disabled = false;
+			}else if(privacy == "Public"){
+				combo.disabled = true;
+			}
+		}
+		
 		function validate(mode){
 			var boardName;
 			if(mode == "ADD")
@@ -301,6 +321,9 @@
 			}
 					
 			if(type != null){
+				if(type == "Public"){
+					document.getElementById("userList2").disabled = true;
+				}
 				typeCom.value = type;
 			}
 			
@@ -314,7 +337,7 @@
 				}			
 			}});
 			
-			alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type);
+			/* alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); */
 		}
 	</script>
 </html>
