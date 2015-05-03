@@ -16,6 +16,10 @@
 $('#myModal').on('shown.bs.modal', function () {
 	  $('#myInput').focus()
 	})
+	
+$('#editModal').on('shown.bs.modal', function () {
+	  $('#myInput').focus()
+	})
 </script>
 </head>
 <body>
@@ -40,7 +44,7 @@ $('#myModal').on('shown.bs.modal', function () {
       <div  class="tile green">
         <h3 class="title"><c:out value="${element.boardName }"></c:out></h3>
         <p><c:out value="${element.description }"></c:out></p>
-        
+        <strong><input data-toggle="modal" data-target="#editModal" type="button" value="Edit Board" class="btn btn-warning"></strong>
       </div>
     </div>
 	<% if(prev%3==0){ %>
@@ -87,7 +91,7 @@ $('#myModal').on('shown.bs.modal', function () {
         		<div class="row">
             <div class="col-xs-8">
                 <label class="control-label">Board Title</label>
-                <input type="text" class="form-control" name="boardName" />
+                <input type="text" class="form-control" id="boardName" name="boardName" placeholder="*Title" />
             </div>
 
             <div class="col-xs-4 selectContainer">
@@ -102,11 +106,8 @@ $('#myModal').on('shown.bs.modal', function () {
                 <label class="control-label">Description</label>
                 <input type="text" class="form-control" name="boardDescription" />
             </div>
-            <div class="col-xs-8">
-                <label class="control-label">Invite People</label>
-                <input type="text"  class="form-control" name="sharedWith" />
-            </div>
-             <div class="col-xs-8 selectContainer">
+            
+             <div class="col-xs-4 selectContainer">
                 <label class="control-label">Category</label>
                 <select class="form-control" name="category">
                     <c:forEach items="${Categories}" var="Category">
@@ -114,12 +115,91 @@ $('#myModal').on('shown.bs.modal', function () {
 					</c:forEach>
                 </select>
             </div>
+            
+            <div class="col-xs-8">
+                <label class="control-label">Invite People</label>
+               
+                <select class="form-control" id = "userList" name="userList" onchange="changeValue();">
+                	<option value=""></option>
+                    <c:forEach items="${Users}" var="userId">
+						<option value="${userId}">${userId}</option>
+					</c:forEach>
+                </select>
+                <br>
+                <textarea class="form-control" id = "sharedWith" name="sharedWith" readonly="readonly"></textarea>
+                <!--  <input type="text"  class="form-control" name="sharedWith" /> -->
+            </div>
+            
         </div>
        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit"  class="btn btn-primary" value="Create Board"></input>
+        <input type="button" onclick="validate();" class="btn btn-primary" value="Create Board"></input>
+      </div>
+       </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Board</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editBoardForm" method="post" action="editBoard">
+        		<div class="row">
+            <div class="col-xs-8">
+                <label class="control-label">Board Title</label>
+                <input type="text" class="form-control" id="boardName2" name="boardName2" placeholder="*Title" />
+            </div>
+
+            <div class="col-xs-4 selectContainer">
+                <label class="control-label">Privacy</label>
+                <select class="form-control" id="privacy2" name="privacy2">
+                    <c:forEach items="${boardTypes}" var="boardType">
+						<option value="${boardType}">${boardType}</option>
+					</c:forEach>
+                </select>
+            </div>
+            <div class="col-xs-8">
+                <label class="control-label">Description</label>
+                <input type="text" class="form-control" id="boardDescription2" name="boardDescription2" />
+            </div>
+            
+             <div class="col-xs-4 selectContainer">
+                <label class="control-label">Category</label>
+                <select class="form-control" id="category2" name="category2">
+                    <c:forEach items="${Categories}" var="Category">
+						<option value="${Category.categoryName}">${Category.categoryName}</option>
+					</c:forEach>
+                </select>
+            </div>
+            
+            <div class="col-xs-8">
+                <label class="control-label">Invite People</label>
+               
+                <select class="form-control" id = "userList2" name="userList2" onchange="changeValue();">
+                	<option value=""></option>
+                    <c:forEach items="${Users}" var="userId">
+						<option value="${userId}">${userId}</option>
+					</c:forEach>
+                </select>
+                <br>
+                <textarea class="form-control" id = "sharedWith2" name="sharedWith2" readonly="readonly"></textarea>
+                <!--  <input type="text"  class="form-control" name="sharedWith" /> -->
+            </div>
+            
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="button" onclick="validate();" class="btn btn-primary" value="Edit Board"></input>
       </div>
        </form>
     </div>
@@ -129,4 +209,43 @@ $('#myModal').on('shown.bs.modal', function () {
   Launch demo modal
 </button> -->
 </body>
+
+<script type="text/javascript">
+	function validate(){
+		var boardName = document.getElementById("boardName").value;
+		
+		/* alert(email+":"+password+":"+rePassword+":"+firstName+":"+lastName+":"+dob+":"+address1+":"+city+":"+state+":"+zipCode); */
+		if(boardName == '' ){
+			alert("Board title is mandatory.")
+		}else{
+			document.forms[0].submit();
+		}
+	}
+	
+	function changeValue(){
+		var component = document.getElementById("sharedWith");
+		var combo = document.getElementById("userList");
+		
+		var sharedWithOld = component.value;
+		var newUser = combo.value;
+		var newString = "";
+		
+		var contains = sharedWithOld.search(newUser);
+		if(contains == -1){
+			if(sharedWithOld.length == 0){
+				newString = newUser;
+			}else{
+				newString = sharedWithOld+" , "+newUser;	
+			}
+		}else{
+			if(sharedWithOld.search(" , "+newUser) != -1 ){
+				newString = sharedWithOld.replace(" , "+newUser, "");	
+			}else{
+				newString = sharedWithOld.replace(newUser, "");
+			}
+		}
+		component.value = newString;
+		combo.value = "";
+	}
+</script>
 </html>

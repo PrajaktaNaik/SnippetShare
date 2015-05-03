@@ -1,5 +1,8 @@
 package com.cmpe275.snippetshare.Manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cmpe275.snippetshare.DAO.UserDAO;
 import com.cmpe275.snippetshare.Model.User;
 
@@ -15,5 +18,14 @@ public class UserManager {
 
 	public static boolean is_user_email_exists(User user)throws Exception {
 		return UserDAO.is_user_email_exists(user);
+	}
+	
+	public static List<String> getAllUsers()throws Exception{
+		List<String> users = new ArrayList<String>();
+		List<User> userList = UserDAO.getAllUsers();
+		for (User user : userList) {
+			users.add(user.getEmail());
+		}
+		return users;
 	}
 }

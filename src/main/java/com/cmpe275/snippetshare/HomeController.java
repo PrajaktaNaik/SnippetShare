@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -151,10 +152,12 @@ public class HomeController {
 			}
 			
 			List<Category> categoryList = CategoryManager.getAllCategories();
+			List<String> userList = UserManager.getAllUsers();
 			model.addAttribute("publicBoards",publicBoards);
 			model.addAttribute("privateBoards",privateBoards);
 			model.addAttribute("boardTypes", ApplicationConstants.BOARD_TYPES);
 			model.addAttribute("Categories", categoryList);
+			model.addAttribute("Users", userList);
 			System.out.println("here in boaurds");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,45 +168,36 @@ public class HomeController {
 	}
 	   
 	@RequestMapping(value="/createBoard",method=RequestMethod.POST)
-	public String createBoard(Model model, String boardName,String privacy ,String boardDescription,String sharedWith, String category ) throws Exception{
+	public String createBoard(Model model, String boardName,String privacy ,String boardDescription,String sharedWith, String category ){
+		if(!checkUserLoggedIn()){
+			return "home";
+		}
+		
 		Board newBoard=new Board();
 		newBoard.setBoardName(boardName);
-		newBoard.setDescription(boardDescription);
-		//newBoard.setSharedWith(sharedWith);
+		newBoard.setDescription(boardDescription != null ? boardDescription : "");
+		newBoard.setSharedWith(parseUsers(sharedWith));
 		newBoard.setOwnerId(getLoggedInUser());
 		newBoard.setType(privacy);
-		BoardManager.createBoard(newBoard);
-		return user_boards(model);
-	/*	System.out.println(boardName);
-		return "boards";*/
-	}
-	
-	public String createBoard(){
-		String categoryId = "cat1";
-		String ownerId = "own 1";
-		String boardName = "SJSU culture";
-		String description = "Try";
-		String type = "Public";
-		List<String> sharedWith = Arrays.asList("Harsh","Fareen");
-		
-		Board board = new Board();
-		board.setBoardName(boardName);
-		board.setCategoryId(categoryId);
-		board.setDescription(description);
-		board.setOwnerId(ownerId);
-		board.setType(type);
-		board.setSharedWith(sharedWith);
-		board.setSnippets(new ArrayList<Snippet>());
-		
+		newBoard.setCategoryId(category);
+		newBoard.setSnippets(new ArrayList<Snippet>());
 		try {
-			BoardManager.createBoard(board);
+			BoardManager.createBoard(newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "";
+		return user_boards(model);
 	}
 	
+	private List<String> parseUsers(String sharedWith) {
+		List<String> userEmails = new ArrayList<String>();
+		StringTokenizer tokenizer = new StringTokenizer(sharedWith, " , ");
+		while(tokenizer.hasMoreTokens()){
+			userEmails.add(tokenizer.nextToken());
+		}
+		return userEmails;
+	}
+
 	public String updateBoard(){
 		String boardId = "553bd2c81f0103ad379f8cd3";
 		String boardName = "SJSU tested";

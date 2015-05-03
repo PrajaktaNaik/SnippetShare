@@ -1,5 +1,7 @@
 package com.cmpe275.snippetshare.DAO;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -41,5 +43,12 @@ public class UserDAO {
 		else
 			System.out.println("User Already exists. Login please");
 			return false;
+	}
+
+	public static List<User> getAllUsers()throws Exception {
+		Query query = new Query();
+		query.fields().include("email");
+		List<User> userList = MongoConfig.getMongoOperationsObj().find(query, User.class);
+		return userList;
 	}
 }
