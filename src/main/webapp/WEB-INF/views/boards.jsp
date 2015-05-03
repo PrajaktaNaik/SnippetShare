@@ -34,7 +34,7 @@ $('#editModal').on('shown.bs.modal', function () {
   <div class="row">
   	  <span class="label label-primary">Public Boards</span><br><br>
   <% int prev=0; %>
-   <c:forEach items="${publicBoards}" var="element" varStatus="myIndex">
+   <c:forEach items="${publicBoards}" var="e" varStatus="myIndex">
 
 	<% if((prev)%3==0){ %>
 		<div class="row">
@@ -42,9 +42,10 @@ $('#editModal').on('shown.bs.modal', function () {
 	
 	<div class="col-sm-4">
       <div  class="tile green">
-        <h3 class="title"><c:out value="${element.boardName }"></c:out></h3>
-        <p><c:out value="${element.description }"></c:out></p>
-        <strong><input data-toggle="modal" data-target="#editModal" type="button" value="Edit Board" class="btn btn-warning"></strong>
+        <h3 class="title"><c:out value="${e.boardName }"></c:out></h3>
+        <p><c:out value="${e.description }"></c:out></p>
+        <strong><input data-toggle="modal" data-target="#editModal" type="button" onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');" 
+        			value="Edit Board" class="btn btn-warning"></strong>
       </div>
     </div>
 	<% if(prev%3==0){ %>
@@ -57,7 +58,7 @@ $('#editModal').on('shown.bs.modal', function () {
 <div>
 	         <span class="label label-primary">Private Boards</span><br><br>
        <% prev=0; %>
-   <c:forEach items="${privateBoards}" var="element" varStatus="myIndex">
+   <c:forEach items="${privateBoards}" var="e" varStatus="myIndex">
 
 	<% if((prev)%3==0){ %>
 		<div class="row">
@@ -65,8 +66,10 @@ $('#editModal').on('shown.bs.modal', function () {
 	
 	<div class="col-sm-4">
       <div  class="tile purple">
-        <h3 class="title"><c:out value="${element.boardName }"></c:out></h3>
-        <p><c:out value="${element.description }"></c:out></p>
+        <h3 class="title"><c:out value="${e.boardName }"></c:out></h3>
+        <p><c:out value="${e.description }"></c:out></p>
+        <strong><input data-toggle="modal" data-target="#editModal" type="button" onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');" 
+        			value="Edit Board" class="btn btn-warning"></strong>
       </div>
     </div>
 	<% if(prev%3==0){ %>
@@ -119,7 +122,7 @@ $('#editModal').on('shown.bs.modal', function () {
             <div class="col-xs-8">
                 <label class="control-label">Invite People</label>
                
-                <select class="form-control" id = "userList" name="userList" onchange="changeValue();">
+                <select class="form-control" id = "userList" name="userList" onchange="changeValue('ADD');">
                 	<option value=""></option>
                     <c:forEach items="${Users}" var="userId">
 						<option value="${userId}">${userId}</option>
@@ -132,12 +135,12 @@ $('#editModal').on('shown.bs.modal', function () {
             
         </div>
        
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="button" onclick="validate();" class="btn btn-primary" value="Create Board"></input>
+        <input type="button" onclick="validate('ADD');" class="btn btn-primary" value="Create Board"></input>
       </div>
        </form>
+       </div>
     </div>
   </div>
 </div>
@@ -152,6 +155,7 @@ $('#editModal').on('shown.bs.modal', function () {
       </div>
       <div class="modal-body">
         <form id="editBoardForm" method="post" action="editBoard">
+        	<input type="hidden" id="boardId2" name="boardId2" value="">
         		<div class="row">
             <div class="col-xs-8">
                 <label class="control-label">Board Title</label>
@@ -183,7 +187,7 @@ $('#editModal').on('shown.bs.modal', function () {
             <div class="col-xs-8">
                 <label class="control-label">Invite People</label>
                
-                <select class="form-control" id = "userList2" name="userList2" onchange="changeValue();">
+                <select class="form-control" id = "userList2" name="userList2" onchange="changeValue('EDIT');">
                 	<option value=""></option>
                     <c:forEach items="${Users}" var="userId">
 						<option value="${userId}">${userId}</option>
@@ -196,12 +200,13 @@ $('#editModal').on('shown.bs.modal', function () {
             
         </div>
        
-      </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="button" onclick="validate();" class="btn btn-primary" value="Edit Board"></input>
+        <input type="button" onclick="validate('EDIT');" class="btn btn-primary" value="Edit Board"></input>
       </div>
        </form>
+       </div>
     </div>
   </div>
 </div>
@@ -211,20 +216,34 @@ $('#editModal').on('shown.bs.modal', function () {
 </body>
 
 <script type="text/javascript">
-	function validate(){
-		var boardName = document.getElementById("boardName").value;
+	function validate(mode){
+		var boardName;
+		if(mode == "ADD")
+			boardName = document.getElementById("boardName").value;
+		else if(mode == "EDIT")
+			boardName = document.getElementById("boardName2").value;
 		
 		/* alert(email+":"+password+":"+rePassword+":"+firstName+":"+lastName+":"+dob+":"+address1+":"+city+":"+state+":"+zipCode); */
 		if(boardName == '' ){
 			alert("Board title is mandatory.")
 		}else{
-			document.forms[0].submit();
+			if(mode == "ADD")
+				document.forms[0].submit();
+			else if(mode == "EDIT")
+				document.forms[1].submit();
 		}
 	}
 	
-	function changeValue(){
-		var component = document.getElementById("sharedWith");
-		var combo = document.getElementById("userList");
+	function changeValue(mode){
+		var component;
+		var combo;
+		if(mode == "ADD"){
+			component = document.getElementById("sharedWith");
+			combo = document.getElementById("userList");
+		}else if(mode == "EDIT"){
+			component = document.getElementById("sharedWith2");
+			combo = document.getElementById("userList2");
+		}
 		
 		var sharedWithOld = component.value;
 		var newUser = combo.value;
@@ -238,14 +257,60 @@ $('#editModal').on('shown.bs.modal', function () {
 				newString = sharedWithOld+" , "+newUser;	
 			}
 		}else{
-			if(sharedWithOld.search(" , "+newUser) != -1 ){
+			var position = sharedWithOld.search(" , "+newUser) 
+			if(position != -1 ){
 				newString = sharedWithOld.replace(" , "+newUser, "");	
 			}else{
-				newString = sharedWithOld.replace(newUser, "");
+				var newposition = sharedWithOld.search(newUser+" , ")
+				if(newposition != -1)
+					newString = sharedWithOld.replace(newUser+" , ", "");
+				else
+					newString = sharedWithOld.replace(newUser, "");
 			}
 		}
 		component.value = newString;
 		combo.value = "";
+	}
+	
+	function doUpdate(boardId, boardName, description, categoryId, type){
+		
+		var idCom = document.getElementById("boardId2");
+		var nameCom = document.getElementById("boardName2");
+		var descCom = document.getElementById("boardDescription2");
+		var catCom = document.getElementById("category2");
+		var typeCom = document.getElementById("privacy2");
+		
+		if(boardId != null){
+			idCom.value = boardId;
+		}
+		
+		if(boardName != null){
+			nameCom.value = boardName;
+		}
+		
+		if(description != null){
+			descCom.value = description;
+		}
+		
+		if(categoryId != null){
+			catCom.value = categoryId;		
+		}
+				
+		if(type != null){
+			typeCom.value = type;
+		}
+		
+		$.ajax({
+		url: "sharedWith",
+		type : "GET",
+		data: { boardId: boardId},
+		success: function(data,textStatus,xhr){
+			if(data != ""){
+				document.getElementById("sharedWith2").value = data;
+			}			
+		}});
+		
+		alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type);
 	}
 </script>
 </html>
