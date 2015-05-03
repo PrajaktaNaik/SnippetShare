@@ -32,4 +32,8 @@ public class BoardManager {
 		return result;
 	}
 
+	public static void deleteBoard(String boardId)throws Exception {
+		BoardDAO.deleteBoard(boardId);
+	}
+
 }

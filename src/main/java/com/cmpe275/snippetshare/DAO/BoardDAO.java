@@ -50,6 +50,11 @@ public class BoardDAO {
 		Board board = MongoConfig.getMongoOperationsObj().findOne(query, Board.class);
 		return (board.getSharedWith() != null ? board.getSharedWith() : new ArrayList<String>());
 	}
+
+	public static void deleteBoard(String boardId)throws Exception {
+		Query query = new Query(Criteria.where("boardId").is(boardId));
+		MongoConfig.getMongoOperationsObj().remove(query, Board.class);
+	}
 	
 
 

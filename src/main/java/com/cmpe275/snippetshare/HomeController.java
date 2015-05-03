@@ -233,7 +233,20 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		return user_boards(model);
+	}
+	
+	@RequestMapping(value="/deleteBoard", method= RequestMethod.GET)
+	public String deleteBoard(Model model, String boardId){
+		if(!checkUserLoggedIn()){
+			return "home";
+		}
 		
+		try {
+			BoardManager.deleteBoard(boardId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user_boards(model);
 	}
 	
 	//---------------------------------------------Category Mappings------------------------------------------------------------
