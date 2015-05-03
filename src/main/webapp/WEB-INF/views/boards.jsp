@@ -93,9 +93,9 @@ $('#myModal').on('shown.bs.modal', function () {
             <div class="col-xs-4 selectContainer">
                 <label class="control-label">Privacy</label>
                 <select class="form-control" name="privacy">
-                    <option value="">Choose a Level</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Private</option>
+                    <c:forEach items="${boardTypes}" var="boardType">
+						<option value="${boardType}">${boardType}</option>
+					</c:forEach>
                 </select>
             </div>
             <div class="col-xs-8">
@@ -109,14 +109,9 @@ $('#myModal').on('shown.bs.modal', function () {
              <div class="col-xs-8 selectContainer">
                 <label class="control-label">Category</label>
                 <select class="form-control" name="category">
-                    <option value="">Choose a Category</option>
-                    <option value="action">Science</option>
-                    <option value="comedy">Nature</option>
-                    <option value="action">Music</option>
-                    <option value="comedy">Art</option>
-                    <option value="action">Love</option>
-                    <option value="comedy">Entertainment</option>
-                    
+                    <c:forEach items="${Categories}" var="Category">
+						<option value="${Category.categoryName}">${Category.categoryName}</option>
+					</c:forEach>
                 </select>
             </div>
         </div>

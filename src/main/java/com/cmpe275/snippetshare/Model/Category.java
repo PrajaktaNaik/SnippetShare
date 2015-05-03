@@ -7,23 +7,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
 	
 	@Id
-	private String commentId;
-	private String name;
-	public String getCommentId() {
-		return commentId;
+	private String categoryName;
+
+	public String getCategoryName() {
+		return categoryName;
 	}
-	public void setCommentId(String commentId) {
-		this.commentId = commentId;
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "Category [commentId=" + commentId + ", name=" + name + "]";
+		return "Category [categoryName=" + categoryName + "]";
 	}
 }

@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.cmpe275.snippetshare.DAO.CommentDAO;
 import com.cmpe275.snippetshare.DAO.SnippetDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
+import com.cmpe275.snippetshare.Manager.CategoryManager;
 import com.cmpe275.snippetshare.Manager.CommentManager;
 import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
+import com.cmpe275.snippetshare.Model.Category;
 import com.cmpe275.snippetshare.Model.Comment;
 import com.cmpe275.snippetshare.Model.Snippet;
 import com.cmpe275.snippetshare.Model.User;
@@ -103,8 +105,8 @@ public class HomeController {
 		try {
 			if(UserManager.loginUser(user)){
 				session = req.getSession();
-				session.setAttribute("userId", user.getEmail());
-				return "signup";
+				session.setAttribute(ApplicationConstants.USER_ID_SESSION, user.getEmail());
+				return user_boards(model);
 			}else
 				return "home";	
 		} catch (Exception e) {
@@ -117,36 +119,48 @@ public class HomeController {
 		return "profile";
 	}
 	
-	@RequestMapping(value="/user/addsnippet",method=RequestMethod.GET)
-	 public String user_snippet(){
-		return "addSnippet";
-	}
-
 	@RequestMapping(value="/signup",method=RequestMethod.GET)
 	public String user_signup(){
 		return "signup";
 	}
 	
-	
+	//---------------------------------------------Board Mappings------------------------------------------------------------
+
 	@RequestMapping(value="/boards",method=RequestMethod.GET)
-	public String user_boards(Model model) throws Exception{
-		User user=new User();
-		user.setEmail("own 1");
-		List<Board> allBoards=BoardManager.getAllBoards(user);
-		List<Board> publicBoards=new ArrayList<Board>();
-		List<Board> privateBoards=new ArrayList<Board>();
-		
-		for(int i=0;i<allBoards.size();i++){
-			Board b=(Board)allBoards.get(i);
-			if(b.getType().equalsIgnoreCase("private")){
-				privateBoards.add(b);
-			}
-			else{
-				publicBoards.add(b);
-			}
+	public String user_boards(Model model){
+		if(!checkUserLoggedIn()){
+			return "home";
 		}
-		model.addAttribute("publicBoards",publicBoards);
-		model.addAttribute("privateBoards",privateBoards);
+		
+		User user=new User();
+		user.setEmail(getLoggedInUser());
+		
+		try {
+			List<Board> allBoards=BoardManager.getAllBoards(user);
+			List<Board> publicBoards=new ArrayList<Board>();
+			List<Board> privateBoards=new ArrayList<Board>();
+			
+			for(int i=0;i<allBoards.size();i++){
+				Board b=(Board)allBoards.get(i);
+				if(b.getType().equalsIgnoreCase("private")){
+					privateBoards.add(b);
+				}
+				else{
+					publicBoards.add(b);
+				}
+			}
+			
+			List<Category> categoryList = CategoryManager.getAllCategories();
+			model.addAttribute("publicBoards",publicBoards);
+			model.addAttribute("privateBoards",privateBoards);
+			model.addAttribute("boardTypes", ApplicationConstants.BOARD_TYPES);
+			model.addAttribute("Categories", categoryList);
+			System.out.println("here in boaurds");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		return "boards";
 	}
 	   
@@ -156,15 +170,13 @@ public class HomeController {
 		newBoard.setBoardName(boardName);
 		newBoard.setDescription(boardDescription);
 		//newBoard.setSharedWith(sharedWith);
-		newBoard.setOwnerId("own 1");
+		newBoard.setOwnerId(getLoggedInUser());
 		newBoard.setType(privacy);
 		BoardManager.createBoard(newBoard);
 		return user_boards(model);
 	/*	System.out.println(boardName);
 		return "boards";*/
 	}
-	
-	//---------------------------------------------Board Mappings------------------------------------------------------------
 	
 	public String createBoard(){
 		String categoryId = "cat1";
@@ -218,6 +230,11 @@ public class HomeController {
 	//---------------------------------------------Category Mappings------------------------------------------------------------
 	
 	//---------------------------------------------Snippet Mappings------------------------------------------------------------
+	
+	@RequestMapping(value="/user/addsnippet",method=RequestMethod.GET)
+	 public String user_snippet(){
+		return "addSnippet";
+	}
 	
 	public String createSnippet(){
 		try {
@@ -281,5 +298,23 @@ public class HomeController {
 		return "";
 	}
 	
-	//-----------------------------------------------------------------------------------------------------------------------------
+	//--------------------------------------------------Session Management--------------------------------------------------------
+	
+	// If user is not in session return false else return true
+	public boolean checkUserLoggedIn(){
+		String userId = getLoggedInUser();
+		if(userId.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
+	public String getLoggedInUser(){
+		Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
+		if(userId == null)
+			return "";
+		else
+			return String.valueOf(userId);
+	}
+	
 }
