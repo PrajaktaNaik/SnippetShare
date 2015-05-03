@@ -20,4 +20,16 @@ public class BoardManager {
 		return BoardDAO.getBoards(user);
 	}
 
+	public static String getSharedUser(String boardId)throws Exception {
+		List<String> sharedList = BoardDAO.getSharedUser(boardId);
+		String result = "";
+		for(String sharedUser : sharedList){
+			if(result.isEmpty())
+				result = result+sharedUser;
+			else
+				result = result+" , "+sharedUser;
+		}
+		return result;
+	}
+
 }

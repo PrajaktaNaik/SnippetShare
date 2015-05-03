@@ -2,7 +2,6 @@ package com.cmpe275.snippetshare;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpe275.snippetshare.DAO.CommentDAO;
 import com.cmpe275.snippetshare.DAO.SnippetDAO;
@@ -158,7 +158,7 @@ public class HomeController {
 			model.addAttribute("boardTypes", ApplicationConstants.BOARD_TYPES);
 			model.addAttribute("Categories", categoryList);
 			model.addAttribute("Users", userList);
-			System.out.println("here in boaurds");
+			System.out.println("here in boards");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -189,36 +189,51 @@ public class HomeController {
 		return user_boards(model);
 	}
 	
+	@RequestMapping(value="/sharedWith",method=RequestMethod.GET)
+	public @ResponseBody String getSharedWithUsers(String boardId){
+		String result = "";
+		try{
+			result = BoardManager.getSharedUser(boardId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("My String"+result);
+		return result;
+	}
+	
 	private List<String> parseUsers(String sharedWith) {
 		List<String> userEmails = new ArrayList<String>();
-		StringTokenizer tokenizer = new StringTokenizer(sharedWith, " , ");
-		while(tokenizer.hasMoreTokens()){
-			userEmails.add(tokenizer.nextToken());
+		if(sharedWith != null && !sharedWith.isEmpty()){
+			StringTokenizer tokenizer = new StringTokenizer(sharedWith, " , ");
+			while(tokenizer.hasMoreTokens()){
+				userEmails.add(tokenizer.nextToken());
+			}
 		}
 		return userEmails;
 	}
 
-	public String updateBoard(){
-		String boardId = "553bd2c81f0103ad379f8cd3";
-		String boardName = "SJSU tested";
-		String description = "Try Good";
-		String type = "Private";
-		List<String> sharedWith = Arrays.asList("Harsh","Kunal");
+	@RequestMapping(value="/editBoard",method=RequestMethod.POST)
+	public String updateBoard(Model model, String boardId2, 
+			String boardName2, String privacy2 ,String boardDescription2, String sharedWith2, String category2){
+		if(!checkUserLoggedIn()){
+			return "home";
+		}
 		
-		Board board = new Board();
-		board.setBoardId(boardId);
-		board.setBoardName(boardName);
-		board.setDescription(description);
-		board.setType(type);
-		board.setSharedWith(sharedWith);
+		Board newBoard=new Board();
+		newBoard.setBoardId(boardId2);
+		newBoard.setBoardName(boardName2);
+		newBoard.setDescription(boardDescription2 != null ? boardDescription2 : "");
+		newBoard.setSharedWith(parseUsers(sharedWith2));
+		newBoard.setType(privacy2);
+		newBoard.setCategoryId(category2);
 		
 		try {
-			BoardManager.updateBoard(board);
+			BoardManager.updateBoard(newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return user_boards(model);
 		
-		return "";
 	}
 	
 	//---------------------------------------------Category Mappings------------------------------------------------------------

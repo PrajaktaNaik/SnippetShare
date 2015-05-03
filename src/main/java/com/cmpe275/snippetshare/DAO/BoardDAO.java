@@ -1,10 +1,8 @@
 package com.cmpe275.snippetshare.DAO;
 
-
-
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -29,14 +27,9 @@ public class BoardDAO {
 		update.set("description", board.getDescription());
 		update.set("type", board.getType());
 		update.set("sharedWith", board.getSharedWith());
+		update.set("categoryId", board.getCategoryId());
 		
-		Board board3 = MongoConfig.getMongoOperationsObj().findAndModify(query, update, new FindAndModifyOptions().returnNew(true), Board.class);
-		
-//		Board board2= MongoConfig.getMongoOperationsObj().findOne(query, Board.class);
-		if(board3 != null){
-			System.out.println("Fetched Board "+board3.toString());
-		}
-		
+		MongoConfig.getMongoOperationsObj().findAndModify(query, update, Board.class);
 	}
 	
 	public static List<Board> getBoards(User user) throws Exception{
@@ -47,6 +40,15 @@ public class BoardDAO {
 		List<Board> allBoards=(List<Board>) MongoConfig.getMongoOperationsObj().find(query, Board.class);
 		return allBoards;
 		
+	}
+
+	public static List<String> getSharedUser(String boardId)throws Exception {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("boardId").is(boardId));
+		query.fields().include("sharedWith");
+		
+		Board board = MongoConfig.getMongoOperationsObj().findOne(query, Board.class);
+		return (board.getSharedWith() != null ? board.getSharedWith() : new ArrayList<String>());
 	}
 	
 
