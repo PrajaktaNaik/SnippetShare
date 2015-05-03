@@ -258,7 +258,7 @@ public class HomeController {
 		return user_boards(model);
 	}
 	
-	@RequestMapping(value="/showBoard/{boardId}",method=RequestMethod.GET)
+	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
 	public String showBoard(Model model,@PathVariable  String boardId){
 		createSnippet();
 		

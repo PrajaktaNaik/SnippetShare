@@ -44,7 +44,7 @@
 					
 					<div class="col-sm-4">
 				      <div  class="tile green">
-				        <h3 class="title"><a href="/snippetshare/showBoard/<c:out value="${e.boardId }"></c:out>"><c:out value="${e.boardName }"></c:out></a></h3>
+				        <h3 class="title"><a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>"><c:out value="${e.boardName }"></c:out></a></h3>
 				        <p><c:out value="${e.description }"></c:out></p>
 				        <div>
 					        <strong><input data-toggle="modal" data-target="#editModal" type="button" onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');" 
