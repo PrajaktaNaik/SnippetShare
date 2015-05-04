@@ -42,7 +42,6 @@
 						data-toggle="modal" data-target="#pendingModal" type="button"
 						value="Pending Requests" class="btn btn-warning"></strong>
 				</h1>
-				<h1></h1>
 			</div>
 		</div>
 
@@ -59,9 +58,9 @@
 					<c:forEach items="${Users}" var="userId">
 						<option value="${userId}">${userId}</option>
 					</c:forEach>
-				</select><br> 
-				<input type="button" value="Cat Search" class="btn btn-warning">
-				<input type="button" value="User Search" class="btn btn-warning">
+				</select><br>
+				<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchUser('CATEGORY');">
+				<input type="button" value="User Search" class="btn btn-warning" onclick="searchUser('USER');"> 
 			</div>
 			<br>
 
@@ -98,8 +97,7 @@
 									data-target="#editModal" type="button"
 									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
 									value="Edit" class="btn btn-warning"></strong> <strong>
-									<a href="/snippetshare/deleteBoard?boardId=${e.boardId}"
-									class="btn btn-warning">Delete</a>
+									<input type="button" value="Delete" class="btn btn-warning" onclick="createRequest('/snippetshare/deleteBoard', {boardId:'${e.boardId}'}, 'post');">
 								</strong>
 							</div>
 						</div>
@@ -146,8 +144,7 @@
 									data-target="#editModal" type="button"
 									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
 									value="Edit" class="btn btn-warning"></strong> <strong>
-									<a href="/snippetshare/deleteBoard?boardId=${e.boardId}"
-									class="btn btn-warning">Delete</a>
+									<input type="button" value="Delete" class="btn btn-warning" onclick="createRequest('/snippetshare/deleteBoard', {boardId:'${e.boardId}'}, 'post');">
 								</strong>
 							</div>
 						</div>
@@ -505,8 +502,55 @@
 				}
 			}
 		});
+		
+		
 
 		/* alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); */
+	}
+	
+	function createRequest(path, params, method) {
+	    method = method || "post"; // Set method to post by default if not specified.
+
+	    // The rest of this code assumes you are not using a library.
+	    // It can be made less wordy if you use one.
+	    var form = document.createElement("form");
+	    form.setAttribute("method", method);
+	    form.setAttribute("action", path);
+
+	    for(var key in params) {
+	        if(params.hasOwnProperty(key)) {
+	            var hiddenField = document.createElement("input");
+	            hiddenField.setAttribute("type", "hidden");
+	            hiddenField.setAttribute("name", key);
+	            hiddenField.setAttribute("value", params[key]);
+
+	            form.appendChild(hiddenField);
+	         }
+	    }
+
+	    document.body.appendChild(form);
+	    form.submit();
+	}
+	
+	function searchUser(mode){
+		var combo;
+		if(mode == "CATEGORY"){
+			combo = document.getElementById('searchCategory');
+			var temp =combo.value; 
+			if(temp == null || temp == ""){
+				alert("Please select a category to search for.")
+			}else{
+				createRequest("/snippetshare/searchBoards",{"type":"CATEGORY", "value":temp}, "post");
+			}
+		}else if(mode == "USER"){
+			combo = document.getElementById('searchUser');
+			var temp =combo.value; 
+			if(temp == null || temp == ""){
+				alert("Please select a user to search for.")
+			}else{
+				createRequest("/snippetshare/searchBoards",{"type":"USER", "value":temp}, "post");
+			}
+		}
 	}
 </script>
 </html>
