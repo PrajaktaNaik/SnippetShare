@@ -15,8 +15,8 @@ public class ImageManager {
     	byte b[] = null;
         try
         {
-        	String filename = "C://Users//Kunal//Google Drive//Docs//General//Leaving Certificate.jpg";
-            String empname ="ABC";
+        	String filename = "C://Users//harshit//Downloads//2323.jpg";
+            String empname ="harshit";
             FileInputStream f = new FileInputStream(new File(filename));
  
             b = new byte[f.available()];
