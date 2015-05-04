@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cmpe275.snippetshare.DAO.CommentDAO;
 import com.cmpe275.snippetshare.DAO.SnippetDAO;
@@ -85,6 +86,10 @@ public class HomeController {
 	 public String user_snippet(){
 		return "addSnippet";
 	}
+	@RequestMapping(value = "movieTheater", method = RequestMethod.POST)
+    public String submitTransaction(Model model, @RequestParam("balance") Double balance){
+		return "";
+}
 	@RequestMapping(value="/user/login",method=RequestMethod.POST)
 	public String user_login(@RequestBody User user){
 		UserManager.loginUser(user);
