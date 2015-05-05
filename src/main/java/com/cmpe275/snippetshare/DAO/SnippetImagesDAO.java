@@ -23,4 +23,19 @@ public class SnippetImagesDAO {
 	
 		return allImages==null?(new ArrayList<SnippetImages>()):allImages;
 	}
+	
+	public static SnippetImages getImage(Long imageId){
+		Query query=new Query();
+		query.addCriteria(Criteria.where("imageId").in(imageId));
+		SnippetImages imageGot= (SnippetImages) MongoConfig.getMongoOperationsObj().findOne(query, SnippetImages.class);
+	
+		return imageGot==null?(new SnippetImages()):imageGot;
+	}
+
+	public static void deleteImage(Long imageId) {
+		// TODO Auto-generated method stub
+		Query query=new Query();
+		query.addCriteria(Criteria.where("imageId").in(imageId));
+		MongoConfig.getMongoOperationsObj().remove(query, SnippetImages.class);
+	}
 }

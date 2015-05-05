@@ -59,4 +59,20 @@ public class SnippetDAO {
 		  return seq.getSequence();
 	}
 
+	public static void deleteSnippet(String snippetId,String boardId) throws Exception {
+		// TODO Auto-generated method stub
+		List<Snippet> allSnippets=getAllSnippets(boardId);
+		List<Snippet> newList=new ArrayList<Snippet>();
+		for(int i=0;i<allSnippets.size();i++){
+			if(allSnippets.get(i).getSnippetId()!=Long.valueOf(snippetId)){
+				newList.add(allSnippets.get(i));
+			}
+		}
+		Query query=new Query();
+		query.addCriteria(Criteria.where("boardId").is(boardId));
+		Update update=new Update();
+		update.set("snippets",newList);
+		MongoConfig.getMongoOperationsObj().updateFirst(query, update, Board.class);
+	}
+
 }

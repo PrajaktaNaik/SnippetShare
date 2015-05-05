@@ -23,5 +23,9 @@ public class SnippetManager {
 	public static List<Snippet> getAllSnippet(String boardId) throws Exception{
 		return SnippetDAO.getAllSnippets(boardId);
 	}
+	
+	public static void deleteSnippet(String snippetId,String boardId) throws Exception{
+		SnippetDAO.deleteSnippet(snippetId,boardId);
+	}
 
 }
