@@ -20,9 +20,9 @@ public class UserManager {
 		return UserDAO.is_user_email_exists(user);
 	}
 	
-	public static List<String> getAllUsers()throws Exception{
+	public static List<String> getAllUsers(String currentUser)throws Exception{
 		List<String> users = new ArrayList<String>();
-		List<User> userList = UserDAO.getAllUsers();
+		List<User> userList = UserDAO.getAllUsers(currentUser);
 		for (User user : userList) {
 			users.add(user.getEmail());
 		}

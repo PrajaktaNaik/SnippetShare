@@ -145,8 +145,9 @@ public class HomeController {
 			return "home";
 		}
 		
+		String currentUser = getLoggedInUser(); 
 		User user=new User();
-		user.setEmail(getLoggedInUser());
+		user.setEmail(currentUser);
 		
 		try {
 			List<Board> allBoards=BoardManager.getAllBoards(user);
@@ -164,7 +165,7 @@ public class HomeController {
 			}
 			
 			List<Category> categoryList = CategoryManager.getAllCategories();
-			List<String> userList = UserManager.getAllUsers();
+			List<String> userList = UserManager.getAllUsers(currentUser);
 			model.addAttribute("publicBoards",publicBoards);
 			model.addAttribute("privateBoards",privateBoards);
 			model.addAttribute("boardTypes", ApplicationConstants.BOARD_TYPES);
@@ -243,6 +244,7 @@ public class HomeController {
 			BoardManager.updateBoard(newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "home";
 		}
 		return user_boards(model);
 	}
@@ -257,14 +259,25 @@ public class HomeController {
 			BoardManager.deleteBoard(boardId);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "home";
 		}
 		return user_boards(model);
 	}
 	
 	@RequestMapping(value="/searchBoards", method= RequestMethod.POST)
 	public String searchBoards(Model model, String type, String value){
+		if(!checkUserLoggedIn()){
+			return "home";
+		}
+		
 		System.out.println("Type"+type+"Value:"+value);
-		return "";
+		try{
+			BoardManager.searchBoards(type, value, getLoggedInUser(), model);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
+		return "searchBoards";
 	}
 	
 	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)

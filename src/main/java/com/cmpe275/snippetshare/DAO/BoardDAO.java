@@ -56,6 +56,17 @@ public class BoardDAO {
 		MongoConfig.getMongoOperationsObj().remove(query, Board.class);
 	}
 	
+	//Key will be either categoryId or ownerId and value will be respective value
+	public static List<Board> getBoardsByType(String key, String value, String boardType)throws Exception{
+		Query query = new Query();
+		query.addCriteria(Criteria.where(key).is(value));
+		query.addCriteria(Criteria.where("type").is(boardType));
+		query.fields().exclude("snippets");
+		
+		List<Board> boardList = MongoConfig.getMongoOperationsObj().find(query, Board.class);
+		
+		return (boardList != null ? boardList : new ArrayList<Board>());
+	}
 
 
 }

@@ -56,15 +56,6 @@
 							<p>
 								<c:out value="${e.description }"></c:out>
 							</p>
-							<div>
-								<strong><input data-toggle="modal"
-									data-target="#editModal" type="button"
-									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
-									value="Edit" class="btn btn-warning"></strong> <strong>
-									<a href="/snippetshare/deleteBoard?boardId=${e.boardId}"
-									class="btn btn-warning">Delete</a>
-								</strong>
-							</div>
 						</div>
 					</div>
 
@@ -104,15 +95,6 @@
 							<p>
 								<c:out value="${e.description }"></c:out>
 							</p>
-							<div>
-								<strong><input data-toggle="modal"
-									data-target="#editModal" type="button"
-									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
-									value="Edit" class="btn btn-warning"></strong> <strong>
-									<a href="/snippetshare/deleteBoard?boardId=${e.boardId}"
-									class="btn btn-warning">Delete</a>
-								</strong>
-							</div>
 						</div>
 					</div>
 					<%

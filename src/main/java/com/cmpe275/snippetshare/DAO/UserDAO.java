@@ -45,8 +45,9 @@ public class UserDAO {
 			return false;
 	}
 
-	public static List<User> getAllUsers()throws Exception {
+	public static List<User> getAllUsers(String currentUser)throws Exception {
 		Query query = new Query();
+		query.addCriteria(Criteria.where("email").ne(currentUser));
 		query.fields().include("email");
 		List<User> userList = MongoConfig.getMongoOperationsObj().find(query, User.class);
 		return userList;

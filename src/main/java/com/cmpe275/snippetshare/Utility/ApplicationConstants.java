@@ -13,4 +13,10 @@ public class ApplicationConstants {
 	public static final String USER_ID_SESSION = "userId";
 	
 	public static final List<String> BOARD_TYPES = Arrays.asList("Public", "Private");
+	
+	public static final String SEARCH_USER = "USER";
+	public static final String SEARCH_CATEGORY = "CATEGORY";
+	
+	public static final String BOARD_TYPE_PUBLIC = "Public";
+	public static final String BOARD_TYPE_PRIVATE = "Private";
 }

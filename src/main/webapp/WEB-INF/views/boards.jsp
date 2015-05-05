@@ -95,7 +95,7 @@
 							<div>
 								<strong><input data-toggle="modal"
 									data-target="#editModal" type="button"
-									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
+									onclick='doUpdate("${e.boardId}", "${e.boardName}", "${e.description}", "${e.categoryId}", "${e.type}");'
 									value="Edit" class="btn btn-warning"></strong> <strong>
 									<input type="button" value="Delete" class="btn btn-warning" onclick="createRequest('/snippetshare/deleteBoard', {boardId:'${e.boardId}'}, 'post');">
 								</strong>
@@ -142,7 +142,7 @@
 							<div>
 								<strong><input data-toggle="modal"
 									data-target="#editModal" type="button"
-									onclick="doUpdate('${e.boardId}', '${e.boardName}', '${e.description}', '${e.categoryId}', '${e.type}');"
+									onclick='doUpdate("${e.boardId}", "${e.boardName}", "${e.description}", "${e.categoryId}", "${e.type}");'
 									value="Edit" class="btn btn-warning"></strong> <strong>
 									<input type="button" value="Delete" class="btn btn-warning" onclick="createRequest('/snippetshare/deleteBoard', {boardId:'${e.boardId}'}, 'post');">
 								</strong>
@@ -176,8 +176,7 @@
 						<div class="row">
 							<div class="col-xs-8">
 								<label class="control-label">Board Title</label> <input
-									type="text" class="form-control" id="boardName"
-									name="boardName" placeholder="*Title" />
+									type="text" class="form-control" id="boardName" name="boardName" placeholder="*Title" />
 							</div>
 
 							<div class="col-xs-4 selectContainer">
@@ -460,7 +459,8 @@
 	}
 
 	function doUpdate(boardId, boardName, description, categoryId, type) {
-
+		alert("came here");
+		alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); 
 		var idCom = document.getElementById("boardId2");
 		var nameCom = document.getElementById("boardName2");
 		var descCom = document.getElementById("boardDescription2");
@@ -505,7 +505,7 @@
 		
 		
 
-		/* alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); */
+		 alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); 
 	}
 	
 	function createRequest(path, params, method) {
