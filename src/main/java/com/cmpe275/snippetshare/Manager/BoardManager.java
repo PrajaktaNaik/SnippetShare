@@ -22,7 +22,7 @@ public class BoardManager {
 		BoardDAO.updateBoard(board);
 	}
 	
-	public  List<Board> getAllBoards(HttpSession session,User user) throws Exception{
+	public List<Board> getAllBoards(HttpSession session,User user) throws Exception{
 		return BoardDAO.getBoards(user);
 	}
 
@@ -54,7 +54,8 @@ public class BoardManager {
 			
 			model.addAttribute("publicBoards",publicBoards);
 			model.addAttribute("privateBoards",sharedBoards);
-			model.addAttribute("welcomeMsg", "Boards For: "+searchValue);
+			model.addAttribute("searchValue", searchValue);
+			model.addAttribute("searchType", ApplicationConstants.SEARCH_CATEGORY);
 			
 		}else if(type.equalsIgnoreCase(ApplicationConstants.SEARCH_USER)){
 			publicBoards = removeCurrentUsersBoard("ownerId", searchValue, currentUser, ApplicationConstants.BOARD_TYPE_PUBLIC);
@@ -64,7 +65,8 @@ public class BoardManager {
 			
 			model.addAttribute("publicBoards",publicBoards);
 			model.addAttribute("privateBoards",sharedBoards);
-			model.addAttribute("welcomeMsg", "Boards For: "+searchValue);
+			model.addAttribute("searchValue", searchValue);
+			model.addAttribute("searchType", ApplicationConstants.SEARCH_USER);
 		}
 	}
 	

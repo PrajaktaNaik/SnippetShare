@@ -296,6 +296,27 @@ public class HomeController {
 		return "searchBoards";
 	}
 	
+	@RequestMapping(value="/viewSearchBoards", method= RequestMethod.GET)
+	public String viewSearchBoards(Model model){
+		if(!checkUserLoggedIn()){
+			return "home";
+		}
+		try{
+			List<Category> categoryList = CategoryManager.getAllCategories();
+			List<String> userList = UserManager.getAllUsers(getLoggedInUser());
+			model.addAttribute("publicBoards",new ArrayList<Board>());
+			model.addAttribute("privateBoards",new ArrayList<Board>());
+			model.addAttribute("searchValue", "");
+			model.addAttribute("searchType", ApplicationConstants.SEARCH_CATEGORY);
+			model.addAttribute("Categories", categoryList);
+			model.addAttribute("Users", userList);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
+		return "searchBoards";
+	}
+	
 	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
 	public String showBoard(Model model,@PathVariable  String boardId){
 		List<SnippetVO> allImagesList=new ArrayList<SnippetVO>();
@@ -429,20 +450,24 @@ public class HomeController {
 	//--------------------------------------------------Session Management--------------------------------------------------------
 	
 	// If user is not in session return false else return true
-/*	public boolean checkUserLoggedIn(){
+	public boolean checkUserLoggedIn(){
 		String userId = getLoggedInUser();
 		if(userId.isEmpty())
 			return false;
 		else
 			return true;
 	}
-*/	
+	
 	public String getLoggedInUser(){
-		Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
-		if(userId == null)
+		if(session != null){
+			Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
+			if(userId == null)
+				return "";
+			else
+				return String.valueOf(userId);
+		}else
 			return "";
-		else
-			return String.valueOf(userId);
+		
 	}
 	
 }
