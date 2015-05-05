@@ -27,15 +27,7 @@ public class ImageManager {
             test.setImage(b);
   
             MongoConfig.getMongoOperationsObj().save(test);
-            /*System.out.println("My Data"+b.toString()+"Try"+b);
- 
-            Binary data = new Binary(b);
-            System.out.println("DATA:"+data);
-            BasicDBObject o = new BasicDBObject();
-            o.append("name",empname).append("photo",data);*/
-          /*  collection.insert(o);
-            System.out.println("Inserted record.");
- */
+       
             f.close();
  
         } catch (Exception e) {
