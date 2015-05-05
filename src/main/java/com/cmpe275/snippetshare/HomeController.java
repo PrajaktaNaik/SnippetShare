@@ -14,20 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpe275.snippetshare.DAO.CommentDAO;
-import com.cmpe275.snippetshare.DAO.SnippetDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
 import com.cmpe275.snippetshare.Manager.CategoryManager;
 import com.cmpe275.snippetshare.Manager.CommentManager;
-import com.cmpe275.snippetshare.Manager.SnippetImagesManager;
-import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
 import com.cmpe275.snippetshare.Model.Category;
@@ -280,71 +275,11 @@ public class HomeController {
 		return "searchBoards";
 	}
 	
-	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
-	public String showBoard(Model model,@PathVariable  String boardId){
-		createSnippet();
-		
-	//	Snippet 
-		//SnippetImagesDAO.addImage(image);
-	/*	if(!checkUserLoggedIn()){
-			return "home";
-		}
-		*/
-		/*try {
-			boardId="553bd6b81f011d661241c3f1";
-		List<Snippet> allSnippets=(List<Snippet>)SnippetManager.getAllSnippet(boardId);
-		model.addAttribute("allSnippets", allSnippets);
-		for(int i=0;i<allSnippets.size();i++){
-			Snippet temp=(Snippet)allSnippets.get(i);
-		}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	*/
-		return "showBoard";
-	}
 	
 	//---------------------------------------------Category Mappings------------------------------------------------------------
 	
 	//---------------------------------------------Snippet Mappings------------------------------------------------------------
 	
-	
-	
-	public String createSnippet(){
-		try {
-			String boardId = "5546887bfa5f17b438635db4";
-			String ownerId = getLoggedInUser();
-			String description = "First Snippet Insertion";
-			int noOfLikes = 10;
-			long snippetId = SnippetDAO.getNextSnippetId(ApplicationConstants.SNIPPET_SEQ_KEY);
-			List<Comment> comments = new ArrayList<Comment>();;
-			
-			Snippet snippet = new Snippet();
-			snippet.setSnippetId(snippetId);
-			snippet.setOwnerId(ownerId);
-			snippet.setDescription(description);
-			snippet.setComments(comments);
-			snippet.setNoOfLikes(noOfLikes);
-			SnippetManager.addSnippet(boardId, snippet);
-			SnippetImagesManager.addSnippetImages(snippetId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "";
-	}
-	
-	public String updateSnippet(){
-		return "";
-	}
-	
-	public String removeSnippet(){
-		return "";
-	}
-	
-	public String likeSnippet(){
-		return "";
-	}
 	
 	//---------------------------------------------Comment Mappings------------------------------------------------------------
 	
