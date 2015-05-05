@@ -12,8 +12,8 @@
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link href="<c:url value="/resources/css/boards.css" />"
-	rel="stylesheet">
+<link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet">
+<script src="<c:url value="/resources/js/common.js" />" ></script>
 <title>Boards</title>
 <script type="text/javascript">
 	$('#myModal').on('shown.bs.modal', function() {
@@ -36,7 +36,7 @@
 		<div>
 			<div class="col-md-12">
 				<h1>
-					<strong>Personalized Boards</strong>&nbsp;&nbsp;&nbsp; <strong><input
+					<strong><input
 						data-toggle="modal" data-target="#myModal" type="button"
 						value="Create" class="btn btn-warning"></strong>&nbsp;&nbsp; <strong><input
 						data-toggle="modal" data-target="#pendingModal" type="button"
@@ -45,25 +45,7 @@
 			</div>
 		</div>
 
-			<div>
-				<select class="form-control" style="width: 20%" id="searchCategory" name="searchCategory">
-					<option value="">Select Category to Search</option>
-					<c:forEach items="${Categories}" var="Category">
-						<option value="${Category.categoryName}">${Category.categoryName}</option>
-					</c:forEach>
-				</select> 
-				<br>
-				<select class="form-control" style="width: 20%" id="searchUser" name="searchUser" placeHolder = "Select User to Search">
-					<option value="">Select User to Search</option>
-					<c:forEach items="${Users}" var="userId">
-						<option value="${userId}">${userId}</option>
-					</c:forEach>
-				</select><br>
-				<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchUser('CATEGORY');">
-				<input type="button" value="User Search" class="btn btn-warning" onclick="searchUser('USER');"> 
-			</div>
-			<br>
-
+		<c:if test="${publicBoards.size() > 0 }">
 		<div class="row">
 			<span class="label label-primary">Public Boards</span><br> <br>
 			<%
@@ -112,11 +94,13 @@
 				%>
 			</c:forEach>
 		</div>
+		</c:if>
 
+		<c:if test="${privateBoards.size() > 0 }">
 		<div>
 			<span class="label label-primary">Private Boards</span><br> <br>
 			<%
-				prev = 0;
+				int prev = 0;
 			%>
 
 			<c:forEach items="${privateBoards}" var="e" varStatus="myIndex">
@@ -158,6 +142,7 @@
 				%>
 			</c:forEach>
 		</div>
+		</c:if>
 	</div>
 
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -503,54 +488,7 @@
 			}
 		});
 		
-		
-
 		 alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); 
-	}
-	
-	function createRequest(path, params, method) {
-	    method = method || "post"; // Set method to post by default if not specified.
-
-	    // The rest of this code assumes you are not using a library.
-	    // It can be made less wordy if you use one.
-	    var form = document.createElement("form");
-	    form.setAttribute("method", method);
-	    form.setAttribute("action", path);
-
-	    for(var key in params) {
-	        if(params.hasOwnProperty(key)) {
-	            var hiddenField = document.createElement("input");
-	            hiddenField.setAttribute("type", "hidden");
-	            hiddenField.setAttribute("name", key);
-	            hiddenField.setAttribute("value", params[key]);
-
-	            form.appendChild(hiddenField);
-	         }
-	    }
-
-	    document.body.appendChild(form);
-	    form.submit();
-	}
-	
-	function searchUser(mode){
-		var combo;
-		if(mode == "CATEGORY"){
-			combo = document.getElementById('searchCategory');
-			var temp =combo.value; 
-			if(temp == null || temp == ""){
-				alert("Please select a category to search for.")
-			}else{
-				createRequest("/snippetshare/searchBoards",{"type":"CATEGORY", "value":temp}, "post");
-			}
-		}else if(mode == "USER"){
-			combo = document.getElementById('searchUser');
-			var temp =combo.value; 
-			if(temp == null || temp == ""){
-				alert("Please select a user to search for.")
-			}else{
-				createRequest("/snippetshare/searchBoards",{"type":"USER", "value":temp}, "post");
-			}
-		}
 	}
 </script>
 </html>
