@@ -22,17 +22,17 @@
 		<br>
 		<br>
 		<div>
-			<select class="form-control" style="width: 20%" id="searchCategory" value="${searchValue}" name="searchCategory">
-				<option value="">Select Category to Search</option>
+			<select class="form-control" style="width: 20%" id="searchCategory"name="searchCategory">
+				<option value="">Select Category to Search</option> 
 				<c:forEach items="${Categories}" var="Category">
-					<option value="${Category.categoryName}">${Category.categoryName}</option>
+					<option value="${Category.categoryName}"  ${Category.categoryName == searchValue ? 'selected="selected"' : ''}>${Category.categoryName}</option>
 				</c:forEach>
 			</select> 
 			<br>
 			<select class="form-control" style="width: 20%" id="searchUser" name="searchUser"  value="${searchValue}" placeHolder = "Select User to Search">
 				<option value="">Select User to Search</option>
 				<c:forEach items="${Users}" var="userId">
-					<option value="${userId}">${userId}</option>
+					<option value="${userId}" ${userId == searchValue ? 'selected="selected"' : ''}>${userId}</option>
 				</c:forEach>
 			</select><br>
 			<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchBoards('CATEGORY');">
@@ -73,13 +73,14 @@
 					<div class="col-sm-4">
 						<div class="tile green">
 							<h3 class="title">
-								<a
-									href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>"><c:out
-										value="${e.boardName }"></c:out></a>
+								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+									<c:out value="${e.boardName }"></c:out>
+								</a>
 							</h3>
 							<p>
 								<c:out value="${e.description }"></c:out>
 							</p>
+							<div class="lbl">Board Owner:<c:out value="${e.ownerId }"></c:out></div>
 						</div>
 					</div>
 
@@ -116,11 +117,14 @@
 					<div class="col-sm-4">
 						<div class="tile purple">
 							<h3 class="title">
-								<c:out value="${e.boardName }"></c:out>
+								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+									<c:out value="${e.boardName }"></c:out>
+								</a>
 							</h3>
 							<p>
 								<c:out value="${e.description }"></c:out>
 							</p>
+							<div class="lbl">Board Owner:<c:out value="${e.ownerId }"></c:out></div>
 						</div>
 					</div>
 					<%

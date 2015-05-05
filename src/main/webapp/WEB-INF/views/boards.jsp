@@ -68,9 +68,9 @@
 					<div class="col-sm-4">
 						<div class="tile green">
 							<h3 class="title">
-								<a
-									href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>"><c:out
-										value="${e.boardName }"></c:out></a>
+								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+									<c:out value="${e.boardName }"></c:out>
+								</a>
 							</h3>
 							<p>
 								<c:out value="${e.description }"></c:out>
@@ -119,7 +119,9 @@
 					<div class="col-sm-4">
 						<div class="tile purple">
 							<h3 class="title">
-								<c:out value="${e.boardName }"></c:out>
+								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+									<c:out value="${e.boardName }"></c:out>
+								</a>
 							</h3>
 							<p>
 								<c:out value="${e.description }"></c:out>
