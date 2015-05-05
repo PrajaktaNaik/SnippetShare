@@ -44,7 +44,8 @@
 				</h1>
 			</div>
 		</div>
-
+		
+		<br><br>
 		<c:if test="${publicBoards.size() > 0 }">
 		<div class="row">
 			<span class="label label-primary">Public Boards</span><br> <br>
@@ -444,9 +445,9 @@
 	}
 
 	function doUpdate(boardId, boardName, description, categoryId, type) {
-		alert("came here");
+/* 		alert("came here");
 		alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); 
-		var idCom = document.getElementById("boardId2");
+ */		var idCom = document.getElementById("boardId2");
 		var nameCom = document.getElementById("boardName2");
 		var descCom = document.getElementById("boardDescription2");
 		var catCom = document.getElementById("category2");
@@ -488,7 +489,7 @@
 			}
 		});
 		
-		 alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); 
+		 /* alert("Clicked"+boardId+":"+boardName+":"+description+":"+categoryId+":"+type); */ 
 	}
 </script>
 </html>

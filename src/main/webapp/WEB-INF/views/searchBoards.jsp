@@ -50,6 +50,7 @@
 			</div>
 		</div>
 		
+		<br>
 		<c:if test="${publicBoards.size() > 0 }">
 		<div class="row">
 			<span class="label label-primary">Public Boards</span><br> <br>
