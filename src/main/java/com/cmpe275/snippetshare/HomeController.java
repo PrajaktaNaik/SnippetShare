@@ -10,27 +10,36 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cmpe275.snippetshare.DAO.CommentDAO;
+import com.cmpe275.snippetshare.DAO.SnippetDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
 import com.cmpe275.snippetshare.Manager.CategoryManager;
 import com.cmpe275.snippetshare.Manager.CommentManager;
+import com.cmpe275.snippetshare.Manager.SnippetImagesManager;
+import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
 import com.cmpe275.snippetshare.Model.Category;
 import com.cmpe275.snippetshare.Model.Comment;
 import com.cmpe275.snippetshare.Model.Snippet;
+import com.cmpe275.snippetshare.Model.SnippetImages;
 import com.cmpe275.snippetshare.Model.User;
 import com.cmpe275.snippetshare.Utility.ApplicationConstants;
 import com.cmpe275.snippetshare.Utility.Utility;
+import com.cmpe275.snippetshare.VO.SnippetVO;
 
 @Controller
 public class HomeController {
@@ -275,11 +284,108 @@ public class HomeController {
 		return "searchBoards";
 	}
 	
+	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
+	public String showBoard(Model model,@PathVariable  String boardId){
+		List<SnippetVO> allImagesList=new ArrayList<SnippetVO>();
+		
+		try {
+			List<Snippet> snippetData=SnippetDAO.getAllSnippets(boardId);
+			for(int i=0;i<snippetData.size();i++){
+				SnippetVO snippetVO=new SnippetVO();
+				snippetVO.setDescription(snippetData.get(i).getDescription());
+				snippetVO.setSnippetId(snippetData.get(i).getSnippetId());
+				snippetVO.setOwnerId(snippetData.get(i).getOwnerId());
+				byte[] imageData=(byte[])SnippetImagesManager.getImage(snippetData.get(i).getSnippetId()).getImage();
+				snippetVO.setImage(new String(Base64.encodeBase64(imageData)));
+				allImagesList.add(snippetVO);
+				//SnippetImagesManager.getAllSnippetImages(imageIds);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("allSnippetsVO", allImagesList);
+		model.addAttribute("loggedInUser", getLoggedInUser());
+		model.addAttribute("boardId", boardId);
+		return "showBoard";
+	}
+	
 	
 	//---------------------------------------------Category Mappings------------------------------------------------------------
 	
 	//---------------------------------------------Snippet Mappings------------------------------------------------------------
+	public String createSnippet(Model model,String boardId,byte[] imageData,String description){
+		try {
+			//boardId = "5546887bfa5f17b438635db4";
+			String ownerId = getLoggedInUser();
+			//String description = "First Snippet Insertion";
+			int noOfLikes = 0;
+			long snippetId = SnippetDAO.getNextSnippetId(ApplicationConstants.SNIPPET_SEQ_KEY);
+			List<Comment> comments = new ArrayList<Comment>();;
+			
+			Snippet snippet = new Snippet();
+			snippet.setSnippetId(snippetId);
+			snippet.setOwnerId(ownerId);
+			snippet.setDescription(description);
+			snippet.setComments(comments);
+			snippet.setNoOfLikes(noOfLikes);
+			SnippetManager.addSnippet(boardId, snippet);
+			SnippetImages newImage=new SnippetImages();
+			newImage.setImageId(snippetId);
+			newImage.setImage(imageData);
+			SnippetImagesManager.addSnippetImages(newImage);
+			return showBoard(model,boardId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 	
+	public String updateSnippet(){
+		return "";
+	}
+	
+	@RequestMapping(value="/deleteSnippet",method=RequestMethod.POST)
+	public String removeSnippet(Model model,String imageId,String boardId){
+		try {
+			SnippetManager.deleteSnippet(imageId, boardId);
+			SnippetImagesManager.deleteImage(Long.valueOf(imageId));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return showBoard(model,boardId);
+	}
+	
+	public String likeSnippet(){
+		return "";
+	}
+	
+	@RequestMapping(value = "/showSnippets/uploadSnippet", method = RequestMethod.POST)
+    public  String  uploadFileHandler(Model model,@RequestParam("file") MultipartFile file,String boardIdHidden,String snippetDescription) {
+ 
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                System.out.println("in upload controller");
+                System.out.println(bytes.toString());
+                System.out.println("You successfully uploaded file="+" boardID"+boardIdHidden+" description"+snippetDescription) ;
+               return  createSnippet(model,boardIdHidden,bytes,snippetDescription);
+                //showBoard(model,"");
+                
+            } catch (Exception e) {
+                System.out.println("You failed to upload "+e.getMessage());
+                return "home";
+            }
+        } else {
+        	 System.out.println("You failed to upload ");
+        }
+        
+        return "";
+    }
 	
 	//---------------------------------------------Comment Mappings------------------------------------------------------------
 	
