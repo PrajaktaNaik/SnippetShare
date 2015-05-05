@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,15 +27,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpe275.snippetshare.DAO.CommentDAO;
 import com.cmpe275.snippetshare.DAO.SnippetDAO;
+import com.cmpe275.snippetshare.DAO.SnippetImagesDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
 import com.cmpe275.snippetshare.Manager.CategoryManager;
 import com.cmpe275.snippetshare.Manager.CommentManager;
+import com.cmpe275.snippetshare.Manager.ImageManager;
 import com.cmpe275.snippetshare.Manager.SnippetImagesManager;
 import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
 import com.cmpe275.snippetshare.Model.Category;
 import com.cmpe275.snippetshare.Model.Comment;
+import com.cmpe275.snippetshare.Model.Image;
 import com.cmpe275.snippetshare.Model.Snippet;
 import com.cmpe275.snippetshare.Model.User;
 import com.cmpe275.snippetshare.Utility.ApplicationConstants;
@@ -259,7 +263,7 @@ public class HomeController {
 		return user_boards(model);
 	}
 	
-	@RequestMapping(value="/deleteBoard", method= RequestMethod.POST)
+	@RequestMapping(value="/deleteBoard", method= RequestMethod.GET)
 	public String deleteBoard(Model model, String boardId){
 		if(!checkUserLoggedIn()){
 			return "home";
@@ -271,12 +275,6 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		return user_boards(model);
-	}
-	
-	@RequestMapping(value="/searchBoards", method= RequestMethod.POST)
-	public String searchBoards(Model model, String type, String value){
-		System.out.println("Type"+type+"Value:"+value);
-		return "";
 	}
 	
 	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
