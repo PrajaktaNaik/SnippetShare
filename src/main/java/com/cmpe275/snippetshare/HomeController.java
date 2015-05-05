@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -145,16 +147,18 @@ public class HomeController {
 
 	@RequestMapping(value="/boards",method=RequestMethod.GET)
 	public String user_boards(Model model){
-		if(!checkUserLoggedIn()){
+	/*	if(!checkUserLoggedIn()){
 			return "home";
-		}
+		}*/
 		
 		String currentUser = getLoggedInUser(); 
 		User user=new User();
 		user.setEmail(currentUser);
 		
 		try {
-			List<Board> allBoards=BoardManager.getAllBoards(user);
+			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
+			BoardManager boardmanager=(BoardManager)context.getBean("board");
+			List<Board> allBoards=boardmanager.getAllBoards(session,user);
 			List<Board> publicBoards=new ArrayList<Board>();
 			List<Board> privateBoards=new ArrayList<Board>();
 			
@@ -178,17 +182,16 @@ public class HomeController {
 			System.out.println("here in boards");
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "home";
 		}
-		
-		
 		return "boards";
 	}
 	   
 	@RequestMapping(value="/createBoard",method=RequestMethod.POST)
 	public String createBoard(Model model, String boardName,String privacy ,String boardDescription,String sharedWith, String category ){
-		if(!checkUserLoggedIn()){
+		/*if(!checkUserLoggedIn()){
 			return "home";
-		}
+		}*/
 		
 		Board newBoard=new Board();
 		newBoard.setBoardName(boardName);
@@ -199,9 +202,12 @@ public class HomeController {
 		newBoard.setCategoryId(category);
 		newBoard.setSnippets(new ArrayList<Snippet>());
 		try {
-			BoardManager.createBoard(newBoard);
+			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
+			BoardManager boardmanager=(BoardManager)context.getBean("board");
+			boardmanager.createBoard(session,newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "home";
 		}
 		return user_boards(model);
 	}
@@ -232,9 +238,9 @@ public class HomeController {
 	@RequestMapping(value="/editBoard",method=RequestMethod.POST)
 	public String updateBoard(Model model, String boardId2, 
 			String boardName2, String privacy2 ,String boardDescription2, String sharedWith2, String category2){
-		if(!checkUserLoggedIn()){
+		/*if(!checkUserLoggedIn()){
 			return "home";
-		}
+		}*/
 		
 		Board newBoard=new Board();
 		newBoard.setBoardId(boardId2);
@@ -245,7 +251,9 @@ public class HomeController {
 		newBoard.setCategoryId(category2);
 		
 		try {
-			BoardManager.updateBoard(newBoard);
+			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
+			BoardManager boardmanager=(BoardManager)context.getBean("board");
+			boardmanager.updateBoard(session,newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "home";
@@ -255,12 +263,14 @@ public class HomeController {
 	
 	@RequestMapping(value="/deleteBoard", method= RequestMethod.POST)
 	public String deleteBoard(Model model, String boardId){
-		if(!checkUserLoggedIn()){
+		/*if(!checkUserLoggedIn()){
 			return "home";
-		}
+		}*/
 		
 		try {
-			BoardManager.deleteBoard(boardId);
+			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
+			BoardManager boardmanager=(BoardManager)context.getBean("board");	
+			boardmanager.deleteBoard(session,boardId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "home";
@@ -270,13 +280,15 @@ public class HomeController {
 	
 	@RequestMapping(value="/searchBoards", method= RequestMethod.POST)
 	public String searchBoards(Model model, String type, String value){
-		if(!checkUserLoggedIn()){
+	/*	if(!checkUserLoggedIn()){
 			return "home";
-		}
+		}*/
 		
 		System.out.println("Type"+type+"Value:"+value);
 		try{
-			BoardManager.searchBoards(type, value, getLoggedInUser(), model);
+			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
+			BoardManager boardmanager=(BoardManager)context.getBean("board");
+			boardmanager.searchBoards(session,type, value, getLoggedInUser(), model);
 		}catch(Exception e){
 			e.printStackTrace();
 			return "home";
@@ -417,14 +429,14 @@ public class HomeController {
 	//--------------------------------------------------Session Management--------------------------------------------------------
 	
 	// If user is not in session return false else return true
-	public boolean checkUserLoggedIn(){
+/*	public boolean checkUserLoggedIn(){
 		String userId = getLoggedInUser();
 		if(userId.isEmpty())
 			return false;
 		else
 			return true;
 	}
-	
+*/	
 	public String getLoggedInUser(){
 		Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
 		if(userId == null)

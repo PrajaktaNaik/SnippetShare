@@ -3,6 +3,8 @@ package com.cmpe275.snippetshare.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 
 import com.cmpe275.snippetshare.DAO.BoardDAO;
@@ -12,15 +14,15 @@ import com.cmpe275.snippetshare.Utility.ApplicationConstants;
 
 public class BoardManager {
 
-	public static void createBoard(Board board) throws Exception {
+	public  void createBoard(HttpSession session,Board board) throws Exception {
 		BoardDAO.saveBoard(board);		
 	}
 
-	public static void updateBoard(Board board) throws Exception{
+	public  void updateBoard(HttpSession session,Board board) throws Exception{
 		BoardDAO.updateBoard(board);
 	}
 	
-	public static List<Board> getAllBoards(User user) throws Exception{
+	public  List<Board> getAllBoards(HttpSession session,User user) throws Exception{
 		return BoardDAO.getBoards(user);
 	}
 
@@ -36,11 +38,11 @@ public class BoardManager {
 		return result;
 	}
 
-	public static void deleteBoard(String boardId)throws Exception {
+	public  void deleteBoard(HttpSession session,String boardId)throws Exception {
 		BoardDAO.deleteBoard(boardId);
 	}
 
-	public static void searchBoards(String type, String searchValue,
+	public  void searchBoards(HttpSession session,String type, String searchValue,
 			String currentUser,Model model) throws Exception{
 		List<Board> publicBoards = new ArrayList<Board>();
 		List<Board> privateBoards = new ArrayList<Board>();
