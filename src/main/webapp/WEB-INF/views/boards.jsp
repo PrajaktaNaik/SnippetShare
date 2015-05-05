@@ -192,7 +192,7 @@
 							</div>
 
 							<div class="col-xs-8">
-								<label class="control-label">Invite People</label> <select
+								<label class="control-label">Share With</label> <select
 									class="form-control" id="userList" name="userList"
 									disabled="true" onchange="changeValue('ADD');">
 									<option value=""></option>
@@ -264,7 +264,7 @@
 							</div>
 
 							<div class="col-xs-8">
-								<label class="control-label">Invite People</label> <select
+								<label class="control-label">Share With</label> <select
 									class="form-control" id="userList2" name="userList2"
 									onchange="changeValue('EDIT');">
 									<option value=""></option>

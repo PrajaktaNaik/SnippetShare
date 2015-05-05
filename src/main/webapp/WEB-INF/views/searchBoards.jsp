@@ -43,8 +43,9 @@
 			<div class="col-md-12">
 				<h1>
 					<c:if test="${searchValue != ''}">
-						<strong>Boards For: ${searchValue}</strong>
+						<strong>${welcomeMsg}</strong>
 					</c:if>
+					
 					
 				</h1>
 			</div>
@@ -98,6 +99,10 @@
 		<c:if test="${privateBoards.size() > 0 }">
 		<div>
 			<span class="label label-primary">Private Boards</span><br> <br>
+			<span class="label label-primary">${searchType}</span><br> <br> 
+			<c:if test="${searchType == 'USER'}">
+				<input type="button" value="Ask Access" class="btn btn-warning" onclick="">
+			</c:if>
 			<%
 				int prev = 0;
 			%>

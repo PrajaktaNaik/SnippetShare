@@ -46,28 +46,28 @@ public class BoardManager {
 			String currentUser,Model model) throws Exception{
 		List<Board> publicBoards = new ArrayList<Board>();
 		List<Board> privateBoards = new ArrayList<Board>();
+		List<Board> sharedBoards = new ArrayList<Board>();
+		String welcomeMsg = "";
+		
 		if(type.equalsIgnoreCase(ApplicationConstants.SEARCH_CATEGORY)){
 			publicBoards = removeCurrentUsersBoard("categoryId", searchValue, currentUser, ApplicationConstants.BOARD_TYPE_PUBLIC);
 			privateBoards = removeCurrentUsersBoard("categoryId", searchValue, currentUser, ApplicationConstants.BOARD_TYPE_PRIVATE);
-			
-			List<Board> sharedBoards = getSharedBoards(privateBoards, currentUser);
-			
-			model.addAttribute("publicBoards",publicBoards);
-			model.addAttribute("privateBoards",sharedBoards);
-			model.addAttribute("searchValue", searchValue);
-			model.addAttribute("searchType", ApplicationConstants.SEARCH_CATEGORY);
-			
+			sharedBoards = getSharedBoards(privateBoards, currentUser);
 		}else if(type.equalsIgnoreCase(ApplicationConstants.SEARCH_USER)){
 			publicBoards = removeCurrentUsersBoard("ownerId", searchValue, currentUser, ApplicationConstants.BOARD_TYPE_PUBLIC);
 			privateBoards = removeCurrentUsersBoard("ownerId", searchValue, currentUser, ApplicationConstants.BOARD_TYPE_PRIVATE);
-			
-			List<Board> sharedBoards = getSharedBoards(privateBoards, currentUser);
-			
-			model.addAttribute("publicBoards",publicBoards);
-			model.addAttribute("privateBoards",sharedBoards);
-			model.addAttribute("searchValue", searchValue);
-			model.addAttribute("searchType", ApplicationConstants.SEARCH_USER);
+			sharedBoards = getSharedBoards(privateBoards, currentUser);
 		}
+		
+		if(publicBoards.size() == 0 && privateBoards.size() == 0)
+			welcomeMsg = "No Boards Found.";
+		else
+			welcomeMsg = "Boards for: "+searchValue;
+		
+		model.addAttribute("publicBoards",publicBoards);
+		model.addAttribute("privateBoards",sharedBoards);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("welcomeMsg", welcomeMsg);
 	}
 	
 	public static List<Board> removeCurrentUsersBoard(String key, String value, String currentUser, String boardType)throws Exception{

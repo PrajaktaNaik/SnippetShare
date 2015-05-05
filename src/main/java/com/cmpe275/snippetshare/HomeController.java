@@ -288,11 +288,15 @@ public class HomeController {
 		try{
 			List<Category> categoryList = CategoryManager.getAllCategories();
 			List<String> userList = UserManager.getAllUsers(getLoggedInUser());
+			
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");
 			boardmanager.searchBoards(session,type, value, getLoggedInUser(), model);
+			
 			model.addAttribute("Categories", categoryList);
 			model.addAttribute("Users", userList);
+			model.addAttribute("searchType", type);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			return "home";
