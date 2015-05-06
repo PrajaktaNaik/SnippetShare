@@ -386,6 +386,33 @@ public class HomeController {
 		}
 	}
 	
+	@RequestMapping(value="/viewPendingRequests",method=RequestMethod.POST)
+	public String viewPendingRequests(Model model){
+		try{
+			System.out.println("Access---->"+getLoggedInUser());
+			List<RequestTracker> requestList = RequestMapperManager.getPendingRequests(getLoggedInUser());
+			System.out.println("In Home"+requestList.size());
+			model.addAttribute("requestList", requestList);
+			return "pendingRequest";
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
+	}
+	
+	@RequestMapping(value="/processPendingRequests",method=RequestMethod.POST)
+	public String processPendingRequests(Model model, String requestId, String boardId, String requesterId, String mode){
+		try{
+			System.out.println("Access---->"+getLoggedInUser());
+			RequestMapperManager.updateRequest(requestId, boardId, requesterId, mode);
+			
+			return viewPendingRequests(model);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
+	}
+	
 	
 	//---------------------------------------------Category Mappings------------------------------------------------------------
 	

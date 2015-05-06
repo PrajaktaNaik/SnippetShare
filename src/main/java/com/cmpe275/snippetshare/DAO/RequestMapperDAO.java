@@ -34,12 +34,13 @@ public class RequestMapperDAO {
 	}
 	
 	public static List<RequestMapper> getPendingRequests(String currentUser, String requestStatus)throws Exception{
+		System.out.println("-------------->"+currentUser+":"+requestStatus);
 		Query query = new Query();
 		query.addCriteria(Criteria.where("ownerId").is(currentUser));
 		query.addCriteria(Criteria.where("status").is(requestStatus));
 		
 		List<RequestMapper> requestList = MongoConfig.getMongoOperationsObj().find(query, RequestMapper.class);
-		
+		System.out.println("MY SIZE----->"+requestList.size());
 		return (requestList != null ? requestList : new ArrayList<RequestMapper>());
 	}
 	
