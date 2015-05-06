@@ -40,15 +40,17 @@
 					width="100%" style="padding: 5px 5px 5px 5px;">
 					<thead>
 						<tr style="font-weight: bold">
-							<th style="width: 30%">Board Title</th>
+							<th style="width: 20%">Owner</th>
+							<th style="width: 25%">Board Title</th>
 							<th style="width: 40%">Board Description</th>
-							<th style="width: 30%">Request Status</th>
+							<th style="width: 20%">Request Status</th>
 						</tr>
 					</thead>
 					<tbody>
 
 						<c:forEach var="dataRow" items="${requestList}">
 							<tr id="${dataRow.boardId}">
+								<td><c:out value="${dataRow.ownerId}" /></td>
 								<td><c:out value="${dataRow.boardName}" /></td>
 								<td><c:out value="${dataRow.boardDescription}" /></td>
 
