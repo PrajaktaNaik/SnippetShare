@@ -67,6 +67,7 @@ public class BoardDAO {
 		
 		return (boardList != null ? boardList : new ArrayList<Board>());
 	}
-
+	
+	
 
 }

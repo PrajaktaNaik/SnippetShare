@@ -81,7 +81,7 @@ public class BoardManager {
 		return updatedBoards;
 	}
 	
-	public static List<Board> getSharedBoards(List<Board> privateBoards, String currentUser){
+	public static List<Board> getSharedBoards(List<Board> privateBoards, String currentUser)throws Exception{
 		List<Board> sharedBoards = new ArrayList<Board>();
 		
 		for(Board board : privateBoards){
@@ -91,5 +91,4 @@ public class BoardManager {
 		}
 		return sharedBoards;
 	}
-
 }
