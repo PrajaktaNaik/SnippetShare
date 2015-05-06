@@ -19,4 +19,8 @@ public class ApplicationConstants {
 	
 	public static final String BOARD_TYPE_PUBLIC = "Public";
 	public static final String BOARD_TYPE_PRIVATE = "Private";
+	
+	public static final String REQUEST_ACCEPTED  = "ACCEPTED";
+	public static final String REQUEST_REJECTED = "REJECTED";
+	public static final String REQUEST_PENDING = "PENDING";
 }

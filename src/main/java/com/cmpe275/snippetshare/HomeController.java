@@ -30,17 +30,20 @@ import com.cmpe275.snippetshare.DAO.SnippetDAO;
 import com.cmpe275.snippetshare.Manager.BoardManager;
 import com.cmpe275.snippetshare.Manager.CategoryManager;
 import com.cmpe275.snippetshare.Manager.CommentManager;
+import com.cmpe275.snippetshare.Manager.RequestMapperManager;
 import com.cmpe275.snippetshare.Manager.SnippetImagesManager;
 import com.cmpe275.snippetshare.Manager.SnippetManager;
 import com.cmpe275.snippetshare.Manager.UserManager;
 import com.cmpe275.snippetshare.Model.Board;
 import com.cmpe275.snippetshare.Model.Category;
 import com.cmpe275.snippetshare.Model.Comment;
+import com.cmpe275.snippetshare.Model.RequestMapper;
 import com.cmpe275.snippetshare.Model.Snippet;
 import com.cmpe275.snippetshare.Model.SnippetImages;
 import com.cmpe275.snippetshare.Model.User;
 import com.cmpe275.snippetshare.Utility.ApplicationConstants;
 import com.cmpe275.snippetshare.Utility.Utility;
+import com.cmpe275.snippetshare.VO.RequestTracker;
 import com.cmpe275.snippetshare.VO.SnippetVO;
 
 @Controller
@@ -350,6 +353,37 @@ public class HomeController {
 		model.addAttribute("loggedInUser", getLoggedInUser());
 		model.addAttribute("boardId", boardId);
 		return "showBoard";
+	}
+	
+	@RequestMapping(value="/viewAccess",method=RequestMethod.POST)
+	public String viewAccess(Model model, String boardOwner){
+		try{
+			System.out.println("Access---->"+boardOwner);
+			List<RequestTracker> requestList = RequestMapperManager.getBoardsForAccess(boardOwner, getLoggedInUser());
+			model.addAttribute("requestList", requestList);
+			return "requestAccess";
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
+	}
+	
+	@RequestMapping(value="/requestAccess",method=RequestMethod.POST)
+	public String requestAccess(Model model, String boardOwner, String boardId){
+		try{
+			RequestMapper mapper = new RequestMapper();
+			mapper.setBoardId(boardId);
+			mapper.setOwnerId(boardOwner);
+			mapper.setRequesterId(getLoggedInUser());
+			mapper.setStatus(ApplicationConstants.REQUEST_PENDING);
+			
+			RequestMapperManager.saveRequest(mapper);
+			
+			return viewAccess(model, boardOwner);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "home";
+		}
 	}
 	
 	
