@@ -91,4 +91,8 @@ public class BoardManager {
 		}
 		return sharedBoards;
 	}
+	
+	public static Board getBoardById(String boardId) throws Exception{
+		return BoardDAO.getBoardById(boardId);
+	}
 }

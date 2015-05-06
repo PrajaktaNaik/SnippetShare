@@ -43,6 +43,7 @@
 					<option value="${userId}" ${userId == searchValue ? 'selected="selected"' : ''}>${userId}</option>
 				</c:forEach>
 			</select><br>
+
 			<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchBoards('CATEGORY');">
 			<input type="button" value="User Search" class="btn btn-warning" onclick="searchBoards('USER');"> 
 			<c:if test="${searchType == 'USER'}">

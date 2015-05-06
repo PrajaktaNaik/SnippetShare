@@ -178,9 +178,9 @@ h2, h3 {
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-                <li><a href="file:///C:/Users/Fareen/Desktop/yu/pr.html">PROFILE</a></li>
+                <li><a href="#">PROFILE</a></li>
                 
-                <li><a href="file:///C:/Users/Fareen/Desktop/yu/lg.html">LOGOUT</a></li>
+                <li><a href="#">LOGOUT</a></li>
             </ul>
         </div>
         <div class="clearfloat"></div>
