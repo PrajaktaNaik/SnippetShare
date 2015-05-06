@@ -24,9 +24,6 @@
 		$('#myInput').focus()
 	})
 
-	$('#pendingModal').on('shown.bs.modal', function() {
-		$('#myInput').focus()
-	})
 </script>
 </head>
 
@@ -38,9 +35,8 @@
 				<h1>
 					<strong><input
 						data-toggle="modal" data-target="#myModal" type="button"
-						value="Create" class="btn btn-warning"></strong>&nbsp;&nbsp; <strong><input
-						data-toggle="modal" data-target="#pendingModal" type="button"
-						value="Pending Requests" class="btn btn-warning"></strong>
+						value="Create" class="btn btn-warning"></strong>&nbsp;&nbsp; <strong>
+						<input type="button" value="Pending Requests" class="btn btn-warning" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');"></strong>
 				</h1>
 			</div>
 		</div>
@@ -286,82 +282,6 @@
 							<input type="button" onclick="validate('EDIT');"
 								class="btn btn-primary" value="Edit Board"></input>
 						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="pendingModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" style="width: 60%">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">Pending requests</h4>
-				</div>
-				<div class="modal-body">
-					<form id="editBoardForm" method="post" action="editBoard">
-						<input type="hidden" id="boardId2" name="boardId2" value="">
-						<div class="row">
-
-							<table id="projectDetails"
-								class="table table-striped table-bordered" cellspacing="0"
-								width="100%" style="padding: 5px 5px 5px 5px;">
-								<thead>
-									<tr style="font-weight: bold">
-										<th style="width: 30%">Board Title</th>
-										<th style="width: 40%">Requester User</th>
-										<th style="width: 20%">Approve/ Reject</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									<tr id="rowId">
-										<td id="title"></td>
-										<td id="User"></td>
-										<td>
-											<div class="buttons">
-												<button class="btn btn-primary">Approve</button>
-
-												<a style="color: white;">
-													<button class="btn btn-danger">Reject</button>
-												</a>
-
-											</div>
-										</td>
-									</tr>
-
-									<%-- 									<c:forEach var="dataRow" items="${project.data}">
-										<tr id="${dataRow.dataId}">
-											<c:forEach var="attribute" items="${dataRow.attributeValues}">
-												<td id="${attribute.key}"><c:out
-														value="${attribute.value}" /></td>
-											</c:forEach>
-											<td>
-												<div class="buttons">
-													<button class="btn btn-primary"
-														onclick="editRecord('${dataRow.dataId}')">Edit</button>
-
-													<a style="color: white;"
-														href="deleteData?dataId=${dataRow.dataId}&projectId=${project.projectId}&tenantId=${project.tenantId}">
-														<button class="btn btn-danger">Delete</button>
-													</a>
-
-												</div>
-											</td>
-										</tr>
-									</c:forEach> --%>
-								</tbody>
-							</table>
-
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">Close</button>
-							</div>
 					</form>
 				</div>
 			</div>

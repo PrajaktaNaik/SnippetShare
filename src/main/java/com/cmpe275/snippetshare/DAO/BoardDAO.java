@@ -68,6 +68,12 @@ public class BoardDAO {
 		return (boardList != null ? boardList : new ArrayList<Board>());
 	}
 	
+	public static Board getBoardById(String boardId)throws Exception{
+		Query query = new Query(Criteria.where("boardId").is(boardId));
+		Board board = MongoConfig.getMongoOperationsObj().findOne(query, Board.class);
+		return board;
+	}
+	
 	
 	
 

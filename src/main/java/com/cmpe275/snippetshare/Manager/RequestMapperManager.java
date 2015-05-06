@@ -3,16 +3,11 @@ package com.cmpe275.snippetshare.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.cmpe275.snippetshare.DAO.BoardDAO;
 import com.cmpe275.snippetshare.DAO.RequestMapperDAO;
 import com.cmpe275.snippetshare.Model.Board;
 import com.cmpe275.snippetshare.Model.RequestMapper;
 import com.cmpe275.snippetshare.Utility.ApplicationConstants;
-import com.cmpe275.snippetshare.Utility.MongoConfig;
 import com.cmpe275.snippetshare.VO.RequestTracker;
 
 public class RequestMapperManager {
@@ -50,8 +45,28 @@ public class RequestMapperManager {
 		return mappers;
 	}
 	
-	public static List<RequestMapper> getPendingRequests(String currentUser)throws Exception{
-		return RequestMapperDAO.getPendingRequests(currentUser, ApplicationConstants.REQUEST_PENDING);
+	public static List<RequestTracker> getPendingRequests(String currentUser)throws Exception{
+		List<RequestMapper> requestList =  RequestMapperDAO.getPendingRequests(currentUser, ApplicationConstants.REQUEST_PENDING);
+		List<RequestTracker> pendingList = new ArrayList<RequestTracker>();
+		
+		for(RequestMapper mapper : requestList){
+			RequestTracker tracker = new RequestTracker();
+			tracker.setId(mapper.getId());
+			tracker.setOwnerId(mapper.getOwnerId());
+			tracker.setRequesterId(mapper.getRequesterId());
+			
+			String boardId = mapper.getBoardId();
+			tracker.setBoardId(boardId);
+			
+			Board board = BoardDAO.getBoardById(boardId);
+			if(board != null){
+				tracker.setBoardDescription(board.getDescription());
+				tracker.setBoardName(board.getBoardName());
+			}
+			
+			pendingList.add(tracker);
+		}
+		return pendingList;
 	}
 	
 	public static void updateRequest(String requestId, String boardId, String requesterId, String mode)throws Exception{
