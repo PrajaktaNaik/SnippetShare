@@ -51,10 +51,9 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	public HttpSession session;
 	//---------------------------------------------Generic Mappings------------------------------------------------------------
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(HttpServletRequest req, Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
@@ -64,30 +63,12 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-//		createBoard();
-//		updateBoard();
-		
-//		ImageManager.withoutUsingGridFS();
-		
-//		Image test = ImageManager.retrieve("", "");
-		
-		
-		//ImageManager.insert();
-		
-	/*	Image test = ImageManager.retrieve("","");
-		
-	model.addAttribute("UserPhoto",new String(Base64.encodeBase64(test.getImage())));*/
-		
-//		createSnippet();
-		
-		//createComment();
-		
 		return "home";
 	}
 	
 	//---------------------------------------------User Mappings------------------------------------------------------------
 	@RequestMapping(value="/user/signUp", method=RequestMethod.POST)
-	public String user_signup(Model model, String email, String firstName, String lastName, String password ){
+	public String user_signup(HttpServletRequest req, Model model, String email, String firstName, String lastName, String password ){
 		
 		User user = new User();
 		user.setEmail(email);
@@ -118,9 +99,9 @@ public class HomeController {
 		
 		try {
 			if(UserManager.loginUser(user)){
-				session = req.getSession();
+				HttpSession session = req.getSession();
 				session.setAttribute(ApplicationConstants.USER_ID_SESSION, user.getEmail());
-				return user_boards(model);
+				return user_boards(req, model);
 			}else
 				return "home";	
 		} catch (Exception e) {
@@ -128,6 +109,7 @@ public class HomeController {
 			return "home";
 		}
 	}
+	
 	@RequestMapping(value="/user/editprofile",method=RequestMethod.GET)
 	 public String user_profile(){
 		return "profile";
@@ -151,12 +133,18 @@ public class HomeController {
 
 	
 	@RequestMapping(value="/aboutUs",method=RequestMethod.GET)
-	public String aboutUs(){
+	public String aboutUs(HttpServletRequest req){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
 		return "aboutUs";
 	}
 	
 	@RequestMapping(value="/contact",method=RequestMethod.GET)
-	public String contactUs(){
+	public String contactUs(HttpServletRequest req){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
 		return "contact";
 	}
 	
@@ -165,19 +153,19 @@ public class HomeController {
 	//---------------------------------------------Board Mappings------------------------------------------------------------
 
 	@RequestMapping(value="/boards",method=RequestMethod.GET)
-	public String user_boards(Model model){
-	/*	if(!checkUserLoggedIn()){
+	public String user_boards(HttpServletRequest req, Model model){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
-		}*/
+		}
 		
-		String currentUser = getLoggedInUser(); 
+		String currentUser = getLoggedInUser(req.getSession()); 
 		User user=new User();
 		user.setEmail(currentUser);
 		
 		try {
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");
-			List<Board> allBoards=boardmanager.getAllBoards(session,user);
+			List<Board> allBoards=boardmanager.getAllBoards(req.getSession(), user);
 			List<Board> publicBoards=new ArrayList<Board>();
 			List<Board> privateBoards=new ArrayList<Board>();
 			
@@ -207,32 +195,33 @@ public class HomeController {
 	}
 	   
 	@RequestMapping(value="/createBoard",method=RequestMethod.POST)
-	public String createBoard(Model model, String boardName,String privacy ,String boardDescription,String sharedWith, String category ){
-		/*if(!checkUserLoggedIn()){
+	public String createBoard(HttpServletRequest req, Model model, String boardName,String privacy ,String boardDescription,String sharedWith, String category ){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
-		}*/
+		}
 		
 		Board newBoard=new Board();
 		newBoard.setBoardName(boardName);
 		newBoard.setDescription(boardDescription != null ? boardDescription : "");
 		newBoard.setSharedWith(parseUsers(sharedWith));
-		newBoard.setOwnerId(getLoggedInUser());
+		newBoard.setOwnerId(getLoggedInUser(req.getSession()));
 		newBoard.setType(privacy);
 		newBoard.setCategoryId(category);
 		newBoard.setSnippets(new ArrayList<Snippet>());
 		try {
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");
-			boardmanager.createBoard(session,newBoard);
+			boardmanager.createBoard(req.getSession(), newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "home";
 		}
-		return user_boards(model);
+		return user_boards(req, model);
 	}
 	
 	@RequestMapping(value="/sharedWith",method=RequestMethod.GET)
-	public @ResponseBody String getSharedWithUsers(String boardId){
+	public @ResponseBody String getSharedWithUsers(HttpServletRequest req, String boardId){
+		
 		String result = "";
 		try{
 			result = BoardManager.getSharedUser(boardId);
@@ -255,11 +244,11 @@ public class HomeController {
 	}
 
 	@RequestMapping(value="/editBoard",method=RequestMethod.POST)
-	public String updateBoard(Model model, String boardId2, 
+	public String updateBoard(HttpServletRequest req, Model model, String boardId2, 
 			String boardName2, String privacy2 ,String boardDescription2, String sharedWith2, String category2){
-		/*if(!checkUserLoggedIn()){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
-		}*/
+		}
 		
 		Board newBoard=new Board();
 		newBoard.setBoardId(boardId2);
@@ -272,45 +261,45 @@ public class HomeController {
 		try {
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");
-			boardmanager.updateBoard(session,newBoard);
+			boardmanager.updateBoard(req.getSession(), newBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "home";
 		}
-		return user_boards(model);
+		return user_boards(req, model);
 	}
 	
 	@RequestMapping(value="/deleteBoard", method= RequestMethod.POST)
-	public String deleteBoard(Model model, String boardId){
-		/*if(!checkUserLoggedIn()){
+	public String deleteBoard(HttpServletRequest req, Model model, String boardId){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
-		}*/
+		}
 		
 		try {
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");	
-			boardmanager.deleteBoard(session,boardId);
+			boardmanager.deleteBoard(req.getSession(), boardId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "home";
 		}
-		return user_boards(model);
+		return user_boards(req, model);
 	}
 	
 	@RequestMapping(value="/searchBoards", method= RequestMethod.POST)
-	public String searchBoards(Model model, String type, String value){
-	/*	if(!checkUserLoggedIn()){
+	public String searchBoards(HttpServletRequest req, Model model, String type, String value){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
-		}*/
+		}
 		
 		System.out.println("Type"+type+"Value:"+value);
 		try{
 			List<Category> categoryList = CategoryManager.getAllCategories();
-			List<String> userList = UserManager.getAllUsers(getLoggedInUser());
+			List<String> userList = UserManager.getAllUsers(getLoggedInUser(req.getSession()));
 			
 			ApplicationContext context= new ClassPathXmlApplicationContext("Spring-config.xml");
 			BoardManager boardmanager=(BoardManager)context.getBean("board");
-			boardmanager.searchBoards(session,type, value, getLoggedInUser(), model);
+			boardmanager.searchBoards(req.getSession(),type, value, getLoggedInUser(req.getSession()), model);
 			
 			model.addAttribute("Categories", categoryList);
 			model.addAttribute("Users", userList);
@@ -324,13 +313,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/viewSearchBoards", method= RequestMethod.GET)
-	public String viewSearchBoards(Model model){
-		if(!checkUserLoggedIn()){
+	public String viewSearchBoards(HttpServletRequest req, Model model){
+		if(!checkUserLoggedIn(req.getSession())){
 			return "home";
 		}
+		
 		try{
 			List<Category> categoryList = CategoryManager.getAllCategories();
-			List<String> userList = UserManager.getAllUsers(getLoggedInUser());
+			List<String> userList = UserManager.getAllUsers(getLoggedInUser(req.getSession()));
 			model.addAttribute("publicBoards",new ArrayList<Board>());
 			model.addAttribute("privateBoards",new ArrayList<Board>());
 			model.addAttribute("searchValue", "");
@@ -345,7 +335,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/showSnippets/{boardId}",method=RequestMethod.GET)
-	public String showBoard(Model model,@PathVariable  String boardId){
+	public String showBoard(HttpServletRequest req, Model model,@PathVariable  String boardId){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		List<SnippetVO> allImagesList=new ArrayList<SnippetVO>();
 		
 		try {
@@ -361,21 +355,24 @@ public class HomeController {
 				//SnippetImagesManager.getAllSnippetImages(imageIds);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		model.addAttribute("allSnippetsVO", allImagesList);
-		model.addAttribute("loggedInUser", getLoggedInUser());
+		model.addAttribute("loggedInUser", getLoggedInUser(req.getSession()));
 		model.addAttribute("boardId", boardId);
 		return "showBoard";
 	}
 	
 	@RequestMapping(value="/viewAccess",method=RequestMethod.POST)
-	public String viewAccess(Model model, String boardOwner){
+	public String viewAccess(HttpServletRequest req, Model model, String boardOwner){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try{
 			System.out.println("Access---->"+boardOwner);
-			List<RequestTracker> requestList = RequestMapperManager.getBoardsForAccess(boardOwner, getLoggedInUser());
+			List<RequestTracker> requestList = RequestMapperManager.getBoardsForAccess(boardOwner, getLoggedInUser(req.getSession()));
 			model.addAttribute("requestList", requestList);
 			return "requestAccess";
 		}catch(Exception e){
@@ -385,17 +382,21 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/requestAccess",method=RequestMethod.POST)
-	public String requestAccess(Model model, String boardOwner, String boardId){
+	public String requestAccess(HttpServletRequest req, Model model, String boardOwner, String boardId){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try{
 			RequestMapper mapper = new RequestMapper();
 			mapper.setBoardId(boardId);
 			mapper.setOwnerId(boardOwner);
-			mapper.setRequesterId(getLoggedInUser());
+			mapper.setRequesterId(getLoggedInUser(req.getSession()));
 			mapper.setStatus(ApplicationConstants.REQUEST_PENDING);
 			
 			RequestMapperManager.saveRequest(mapper);
 			
-			return viewAccess(model, boardOwner);
+			return viewAccess(req, model, boardOwner);
 		}catch(Exception e){
 			e.printStackTrace();
 			return "home";
@@ -403,10 +404,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/viewPendingRequests",method=RequestMethod.POST)
-	public String viewPendingRequests(Model model){
+	public String viewPendingRequests(HttpServletRequest req, Model model){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try{
-			System.out.println("Access---->"+getLoggedInUser());
-			List<RequestTracker> requestList = RequestMapperManager.getPendingRequests(getLoggedInUser());
+			System.out.println("Access---->"+getLoggedInUser(req.getSession()));
+			List<RequestTracker> requestList = RequestMapperManager.getPendingRequests(getLoggedInUser(req.getSession()));
 			System.out.println("In Home"+requestList.size());
 			model.addAttribute("requestList", requestList);
 			return "pendingRequest";
@@ -417,12 +422,16 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/processPendingRequests",method=RequestMethod.POST)
-	public String processPendingRequests(Model model, String requestId, String boardId, String requesterId, String mode){
+	public String processPendingRequests(HttpServletRequest req, Model model, String requestId, String boardId, String requesterId, String mode){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try{
-			System.out.println("Access---->"+getLoggedInUser());
+			System.out.println("Access---->"+getLoggedInUser(req.getSession()));
 			RequestMapperManager.updateRequest(requestId, boardId, requesterId, mode);
 			
-			return viewPendingRequests(model);
+			return viewPendingRequests(req, model);
 		}catch(Exception e){
 			e.printStackTrace();
 			return "home";
@@ -433,10 +442,14 @@ public class HomeController {
 	//---------------------------------------------Category Mappings------------------------------------------------------------
 	
 	//---------------------------------------------Snippet Mappings------------------------------------------------------------
-	public String createSnippet(Model model,String boardId,byte[] imageData,String description){
+	public String createSnippet(HttpServletRequest req, Model model,String boardId,byte[] imageData,String description){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try {
 			//boardId = "5546887bfa5f17b438635db4";
-			String ownerId = getLoggedInUser();
+			String ownerId = getLoggedInUser(req.getSession());
 			//String description = "First Snippet Insertion";
 			int noOfLikes = 0;
 			long snippetId = SnippetDAO.getNextSnippetId(ApplicationConstants.SNIPPET_SEQ_KEY);
@@ -453,7 +466,7 @@ public class HomeController {
 			newImage.setImageId(snippetId);
 			newImage.setImage(imageData);
 			SnippetImagesManager.addSnippetImages(newImage);
-			return showBoard(model,boardId);
+			return showBoard(req, model,boardId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -466,7 +479,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/deleteSnippet",method=RequestMethod.POST)
-	public String removeSnippet(Model model,String imageId,String boardId){
+	public String removeSnippet(HttpServletRequest req, Model model,String imageId,String boardId){
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
 		try {
 			SnippetManager.deleteSnippet(imageId, boardId);
 			SnippetImagesManager.deleteImage(Long.valueOf(imageId));
@@ -475,7 +492,7 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		
-		return showBoard(model,boardId);
+		return showBoard(req, model,boardId);
 	}
 	
 	public String likeSnippet(){
@@ -483,15 +500,18 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/showSnippets/uploadSnippet", method = RequestMethod.POST)
-    public  String  uploadFileHandler(Model model,@RequestParam("file") MultipartFile file,String boardIdHidden,String snippetDescription) {
- 
+    public  String  uploadFileHandler(HttpServletRequest req, Model model,@RequestParam("file") MultipartFile file,String boardIdHidden,String snippetDescription) {
+		if(!checkUserLoggedIn(req.getSession())){
+			return "home";
+		}
+		
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 System.out.println("in upload controller");
                 System.out.println(bytes.toString());
                 System.out.println("You successfully uploaded file="+" boardID"+boardIdHidden+" description"+snippetDescription) ;
-               return  createSnippet(model,boardIdHidden,bytes,snippetDescription);
+               return  createSnippet(req, model,boardIdHidden,bytes,snippetDescription);
                 //showBoard(model,"");
                 
             } catch (Exception e) {
@@ -535,15 +555,15 @@ public class HomeController {
 	//--------------------------------------------------Session Management--------------------------------------------------------
 	
 	// If user is not in session return false else return true
-	public boolean checkUserLoggedIn(){
-		String userId = getLoggedInUser();
+	public boolean checkUserLoggedIn(HttpSession session){
+		String userId = getLoggedInUser(session);
 		if(userId.isEmpty())
 			return false;
 		else
 			return true;
 	}
 	
-	public String getLoggedInUser(){
+	public String getLoggedInUser(HttpSession session){
 		if(session != null){
 			Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
 			if(userId == null)
