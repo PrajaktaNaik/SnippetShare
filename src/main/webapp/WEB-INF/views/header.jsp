@@ -178,9 +178,9 @@ h2, h3 {
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-                <li><a href="file:///C:/Users/Fareen/Desktop/yu/pr.html">PROFILE</a></li>
+                <li><a href="#">PROFILE</a></li>
                 
-                <li><a href="file:///C:/Users/Fareen/Desktop/yu/lg.html">LOGOUT</a></li>
+                <li><a href="#">LOGOUT</a></li>
             </ul>
         </div>
         <div class="clearfloat"></div>
@@ -188,7 +188,7 @@ h2, h3 {
             <ul id="navlist">
              
                 <li><a href="/snippetshare/boards">MY BOARDS</a></li>
-                <li><a href="#">SEARCH BOARDS</a></li>
+                <li><a href="/snippetshare/viewSearchBoards">SEARCH BOARDS</a></li>
                 <li><a href="/snippetshare/aboutUs">ABOUT US </a></li>
                 
                 <li><a href="/snippetshare/contact">CONTACT</a></li>

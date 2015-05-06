@@ -15,9 +15,17 @@
 <link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet">
 <script src="<c:url value="/resources/js/common.js" />" ></script>
 <title>Search Boards</title>
+<script type="text/javascript">
+	$(function() {
+		$("#header").load("header");
+
+		// $("#footer").load("footer.ejs"); 
+	});
+</script>
 </head>
 
 <body>
+<div id="header" class="header"></div>
 	<div class="container">
 		<br>
 		<br>
@@ -35,6 +43,7 @@
 					<option value="${userId}" ${userId == searchValue ? 'selected="selected"' : ''}>${userId}</option>
 				</c:forEach>
 			</select><br>
+
 			<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchBoards('CATEGORY');">
 			<input type="button" value="User Search" class="btn btn-warning" onclick="searchBoards('USER');"> 
 			<c:if test="${searchType == 'USER'}">

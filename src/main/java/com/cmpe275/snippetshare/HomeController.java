@@ -341,7 +341,7 @@ public class HomeController {
 		}
 		
 		List<SnippetVO> allImagesList=new ArrayList<SnippetVO>();
-		
+		Board curBoard=new Board();
 		try {
 			List<Snippet> snippetData=SnippetDAO.getAllSnippets(boardId);
 			for(int i=0;i<snippetData.size();i++){
@@ -352,15 +352,19 @@ public class HomeController {
 				byte[] imageData=(byte[])SnippetImagesManager.getImage(snippetData.get(i).getSnippetId()).getImage();
 				snippetVO.setImage(new String(Base64.encodeBase64(imageData)));
 				allImagesList.add(snippetVO);
+				
 				//SnippetImagesManager.getAllSnippetImages(imageIds);
 			}
+			curBoard=BoardManager.getBoardById(boardId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	
 		model.addAttribute("allSnippetsVO", allImagesList);
 		model.addAttribute("loggedInUser", getLoggedInUser(req.getSession()));
 		model.addAttribute("boardId", boardId);
+		model.addAttribute("boardName", curBoard.getBoardName());
+		System.out.println(curBoard.getBoardName());
 		return "showBoard";
 	}
 	
