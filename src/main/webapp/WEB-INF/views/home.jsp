@@ -46,7 +46,7 @@ Snippet Share
 	                    
 	                    <div class="row">
 	                        <div>
-		                        <a href="/snippetshare/signup" class="btn btn-warning btn-block btn-lg">Sign Up</a>
+		                        <a href="/snippetshare/viewSignup" class="btn btn-warning btn-block btn-lg">Sign Up</a>
 	           				 </div>
 	                    </div>
 	                </div>

@@ -1,8 +1,6 @@
 package com.cmpe275.snippetshare;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -51,23 +49,17 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	//---------------------------------------------Generic Mappings------------------------------------------------------------
+	//---------------------------------------------User Mappings------------------------------------------------------------
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpServletRequest req, Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
 		return "home";
 	}
 	
-	//---------------------------------------------User Mappings------------------------------------------------------------
-	@RequestMapping(value="/user/signUp", method=RequestMethod.POST)
+	
+	//
+	@RequestMapping(value="/signUp", method=RequestMethod.POST)
 	public String user_signup(HttpServletRequest req, Model model, String email, String firstName, String lastName, String password ){
 		
 		User user = new User();
@@ -121,8 +113,8 @@ public class HomeController {
 		return "";
 	}
 
-	@RequestMapping(value="/signup",method=RequestMethod.GET)
-	public String user_signup(){
+	@RequestMapping(value="/viewSignup",method=RequestMethod.GET)
+	public String viewSignup(){
 		return "signup";
 	}
 	
@@ -131,6 +123,11 @@ public class HomeController {
 		return "header";
 	}
 
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public String logOut(HttpServletRequest req){
+		invalidateSession(req.getSession());
+		return "home";
+	}
 	
 	@RequestMapping(value="/aboutUs",method=RequestMethod.GET)
 	public String aboutUs(HttpServletRequest req){
@@ -576,7 +573,12 @@ public class HomeController {
 				return String.valueOf(userId);
 		}else
 			return "";
-		
 	}
+	
+	public void invalidateSession(HttpSession session){
+		if(session != null){
+			session.invalidate();
+		}
+	} 
 	
 }

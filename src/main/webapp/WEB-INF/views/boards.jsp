@@ -45,8 +45,7 @@
 				<h1>
 					<strong><input
 						data-toggle="modal" data-target="#myModal" type="button"
-						value="Create" class="btn btn-warning"></strong>&nbsp;&nbsp; <strong>
-						<input type="button" value="Pending Requests" class="btn btn-warning" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');"></strong>
+						value="Create" class="btn btn-warning"></strong>
 				</h1>
 			</div>
 		</div>

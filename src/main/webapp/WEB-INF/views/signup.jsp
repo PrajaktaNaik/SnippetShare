@@ -23,7 +23,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 ">
-		<form role="form" method="post" action="user/signUp" style="margin-top:100px;">
+		<form role="form" method="post" action="signUp" style="margin-top:100px;">
 			<h2 style="color: white;">Snippet Share<small><br><br> SignUp Here</small></h2>
 			<hr class="colorgraph">
 			<div class="form-group">

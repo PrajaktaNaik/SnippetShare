@@ -9,6 +9,7 @@
 <title>Snippet Share</title>
 <link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet">
 <link href="http://fonts.googleapis.com/css?family=Abel|Arvo" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/resources/js/common.js" />" ></script>
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <%-- <link href="<c:url value="/resources/css/header.css" />" rel="stylesheet"> --%>
 <style>
@@ -178,9 +179,11 @@ h2, h3 {
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-                <li><a href="#">PROFILE</a></li>
-                
-                <li><a href="#">LOGOUT</a></li>
+            
+            <li><input type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
+                <!-- <li><a href="#">PENDING RE</a></li> -->
+            <li><input type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>    
+                <!-- <li><a href="#">LOGOUT</a></li> -->
             </ul>
         </div>
         <div class="clearfloat"></div>
