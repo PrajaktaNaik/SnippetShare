@@ -6,6 +6,7 @@
 <html>
 
 <head>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -16,9 +17,17 @@
 	rel="stylesheet">
 <script src="<c:url value="/resources/js/common.js" />"></script>
 <title>View Requests</title>
+<script type="text/javascript">
+	$(function() {
+		$("#header").load("header");
+
+		// $("#footer").load("footer.ejs"); 
+	});
+</script>
 </head>
 
 <body>
+<div id="header" class="header"></div>
 	<br>
 	<br>
 

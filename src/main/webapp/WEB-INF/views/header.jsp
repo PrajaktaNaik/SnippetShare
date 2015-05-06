@@ -188,7 +188,7 @@ h2, h3 {
             <ul id="navlist">
              
                 <li><a href="/snippetshare/boards">MY BOARDS</a></li>
-                <li><a href="#">SEARCH BOARDS</a></li>
+                <li><a href="/snippetshare/viewSearchBoards">SEARCH BOARDS</a></li>
                 <li><a href="/snippetshare/aboutUs">ABOUT US </a></li>
                 
                 <li><a href="/snippetshare/contact">CONTACT</a></li>

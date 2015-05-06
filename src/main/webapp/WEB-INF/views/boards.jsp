@@ -14,6 +14,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet">
 <script src="<c:url value="/resources/js/common.js" />" ></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <title>Boards</title>
 <script type="text/javascript">
 	$('#myModal').on('shown.bs.modal', function() {
@@ -23,11 +24,20 @@
 	$('#editModal').on('shown.bs.modal', function() {
 		$('#myInput').focus()
 	})
+	
 
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#header").load("header");
+
+		// $("#footer").load("footer.ejs"); 
+	});
 </script>
 </head>
 
 <body>
+<div id="header" class="header"></div>
 	<div class="container">
 
 		<div>
