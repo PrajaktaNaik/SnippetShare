@@ -144,6 +144,22 @@ public class HomeController {
 		return "signup";
 	}
 	
+	@RequestMapping(value="/header",method=RequestMethod.GET)
+	public String getHeader(){
+		return "header";
+	}
+
+	
+	@RequestMapping(value="/aboutUs",method=RequestMethod.GET)
+	public String aboutUs(){
+		return "aboutUs";
+	}
+	
+	@RequestMapping(value="/contact",method=RequestMethod.GET)
+	public String contactUs(){
+		return "contact";
+	}
+	
 	
 	
 	//---------------------------------------------Board Mappings------------------------------------------------------------
