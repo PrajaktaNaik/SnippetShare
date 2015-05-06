@@ -224,9 +224,9 @@ transition: all 0.3s ease-in-out;
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-                <li><a href="#">PROFILE</a></li>
-                
-                <li><a href="#">LOGOUT</a></li>
+               <li><input type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
+                <!-- <li><a href="#">PENDING RE</a></li> -->
+            <li><input type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>
             </ul>
         </div>
         <div class="clearfloat"></div>
@@ -246,7 +246,7 @@ transition: all 0.3s ease-in-out;
         
     </div>
 <div class="row">
-<h3  align="center">Board Title:<c:out value="${boardName}"></c:out> </h3>
+<h3  align="center"><c:out value="${boardName}"></c:out> </h3>
 </div>
 <div class="row" style="margin-left:90px">
 		<div class="col-sm-4">
