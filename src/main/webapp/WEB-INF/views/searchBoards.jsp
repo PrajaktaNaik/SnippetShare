@@ -37,6 +37,9 @@
 			</select><br>
 			<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchBoards('CATEGORY');">
 			<input type="button" value="User Search" class="btn btn-warning" onclick="searchBoards('USER');"> 
+			<c:if test="${searchType == 'USER'}">
+				<input type="button" value="Ask Private Board Access" class="btn btn-warning" onclick="createRequest('/snippetshare/viewAccess', {boardOwner:'${searchValue}'}, 'post');">
+			</c:if>
 		</div>
 
 		<div>
@@ -99,9 +102,8 @@
 		<c:if test="${privateBoards.size() > 0 }">
 		<div>
 			<span class="label label-primary">Private Boards</span><br> <br>
-			<span class="label label-primary">${searchType}</span><br> <br> 
 			<c:if test="${searchType == 'USER'}">
-				<input type="button" value="Ask Access" class="btn btn-warning" onclick="">
+				<input type="button" value="Ask Access" class="btn btn-warning" onclick="createRequest('/snippetshare/requestAccess', {boardOwner:'${searchValue}'}, 'post');">
 			</c:if>
 			<%
 				int prev = 0;
