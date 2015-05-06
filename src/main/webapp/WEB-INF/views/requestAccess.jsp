@@ -19,42 +19,60 @@
 </head>
 
 <body>
-	<div class="row">
-		<div class="col-md-10">
-			<table id="projectDetails" class="table table-striped table-bordered"
-				cellspacing="0" width="100%" style="padding: 5px 5px 5px 5px;">
-				<thead>
-					<tr style="font-weight: bold">
-						<th style="width: 30%">Board Title</th>
-						<th style="width: 40%">Board Description</th>
-						<th style="width: 30%">Request Status</th>
-					</tr>
-				</thead>
-				<tbody>
+	<br>
+	<br>
 
-					<c:forEach var="dataRow" items="${requestList}">
-						<tr id="${dataRow.boardId}">
-							<td><c:out value="${dataRow.boardName}" /></td>
-							<td><c:out value="${dataRow.boardDescription}" /></td>
-
-							<td><c:choose>
-									<c:when test='${dataRow.status == ""}'>
-										<div class="buttons">
-											<input type="button" value="Request Access" class="btn btn-primary" onclick="createRequest('/snippetshare/requestAccess', {boardOwner:'${dataRow.ownerId}', boardId:'${dataRow.boardId}'}, 'post');">
-										</div>
-									</c:when>
-									<c:otherwise>
-										<c:out value="${dataRow.status}" />
-									</c:otherwise>
-								</c:choose>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
+	<c:if test="${requestList.size() == 0}">
+		<div>
+			<div class="col-md-12">
+				<h1>
+					<strong><c:out value="No more private boards are hidden." /></strong>
+				</h1>
+			</div>
 		</div>
-	</div>
+	</c:if>
+
+	<c:if test="${requestList.size() >0}">
+		<div class="row">
+			<div class="col-md-10">
+				<table id="projectDetails"
+					class="table table-striped table-bordered" cellspacing="0"
+					width="100%" style="padding: 5px 5px 5px 5px;">
+					<thead>
+						<tr style="font-weight: bold">
+							<th style="width: 30%">Board Title</th>
+							<th style="width: 40%">Board Description</th>
+							<th style="width: 30%">Request Status</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<c:forEach var="dataRow" items="${requestList}">
+							<tr id="${dataRow.boardId}">
+								<td><c:out value="${dataRow.boardName}" /></td>
+								<td><c:out value="${dataRow.boardDescription}" /></td>
+
+								<td><c:choose>
+										<c:when test='${dataRow.status == ""}'>
+											<div class="buttons">
+												<input type="button" value="Request Access"
+													class="btn btn-primary"
+													onclick="createRequest('/snippetshare/requestAccess', {boardOwner:'${dataRow.ownerId}', boardId:'${dataRow.boardId}'}, 'post');">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<c:out value="${dataRow.status}" />
+										</c:otherwise>
+									</c:choose></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</c:if>
+
 
 </body>
 </html>

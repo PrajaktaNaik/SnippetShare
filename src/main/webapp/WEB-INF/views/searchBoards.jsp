@@ -102,9 +102,6 @@
 		<c:if test="${privateBoards.size() > 0 }">
 		<div>
 			<span class="label label-primary">Private Boards</span><br> <br>
-			<c:if test="${searchType == 'USER'}">
-				<input type="button" value="Ask Access" class="btn btn-warning" onclick="createRequest('/snippetshare/requestAccess', {boardOwner:'${searchValue}'}, 'post');">
-			</c:if>
 			<%
 				int prev = 0;
 			%>
