@@ -49,10 +49,10 @@
 					width="100%" style="padding: 5px 5px 5px 5px;">
 					<thead>
 						<tr style="font-weight: bold">
-								<th style="width: 30%">Board Title</th>
-								<th style="width: 40%">Board Description</th>
-								<th style="width: 25%">Requester User</th>
-								<th style="width: 20%">Approve/ Reject</th>
+								<th style="width: 20%">Board Title</th>
+								<th style="width: 30%">Board Description</th>
+								<th style="width: 20%">Requester User</th>
+								<th style="width: 30%">Approve/ Reject</th>
 							</tr>
 					</thead>
 					<tbody>
