@@ -173,16 +173,25 @@ h2, h3 {
 <!-- begin #container -->
 <div id="container">
     <!-- begin #header -->
+    <%
+    String userId="";
+    if(session.getAttribute("userId")!=null){
+    	userId=(String)session.getAttribute("userId");
+    }
+  
+    %>
     <div id="header">
     
     	<h1><a href=""><span> </span> <span> </span> <span> </span> <span> </span> <span> </span> <span> </span><span> </span>
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-            
-            <li><input type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
+            <li style="text-decoration: none;  padding-right: 10px;  color: #999999;  padding-top: 10px;  text-transform: uppercase;">
+            <%=userId %>
+            </li>
+            <li><input class="btn" type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
                 <!-- <li><a href="#">PENDING RE</a></li> -->
-            <li><input type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>    
+            <li><input class="btn" type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>    
                 <!-- <li><a href="#">LOGOUT</a></li> -->
             </ul>
         </div>

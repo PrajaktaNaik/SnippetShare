@@ -16,9 +16,17 @@
 	rel="stylesheet">
 <script src="<c:url value="/resources/js/common.js" />"></script>
 <title>Access Private Boards</title>
+<script type="text/javascript">
+	$(function() {
+		$("#header").load("header");
+
+		// $("#footer").load("footer.ejs"); 
+	});
+</script>
 </head>
 
 <body>
+<div id="header" class="header"></div>
 	<br>
 	<br>
 

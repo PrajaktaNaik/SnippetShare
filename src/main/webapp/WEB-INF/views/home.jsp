@@ -26,15 +26,15 @@ Snippet Share
                 <div class="pass-reset">
                     <label>
                         Enter the email you signed up with</label>
-                    <input type="email" placeholder="Email" />
-                    <input type="submit" value="Submit" class="pass-reset-submit btn btn-success btn-sm" />
+                    <input  type="email" placeholder="Email" />
+                    <input  type="submit" value="Submit" class="pass-reset-submit btn btn-success btn-sm" />
                 </div>
             </div>
             <div class="wrap">
                 <p class="form-title">
                     Sign In</p>
                 <form class="login" action="login" method="post">
-	                <input id="email" name="email" type="text" placeholder="*Email" style="color: black;"/>
+	                <input id="email"  name="email" type="text" placeholder="*Email" style="color: white;"/>
 	                <input id="password" name= "password"  type="password" placeholder="*Password" />
 	                <input type="button" onclick="validate();" value="Sign In" class="btn btn-success btn-sm" />
 	                <div class="remember-forgot">

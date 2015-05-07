@@ -30,36 +30,58 @@
 		<br>
 		<br>
 		<div>
-			<select class="form-control" style="width: 20%" id="searchCategory"name="searchCategory">
+			<table>
+			<tr>
+			<td>
+				<select class="form-control" style="width: 100%" id="searchCategory"name="searchCategory">
 				<option value="">Select Category to Search</option> 
 				<c:forEach items="${Categories}" var="Category">
 					<option value="${Category.categoryName}"  ${Category.categoryName == searchValue ? 'selected="selected"' : ''}>${Category.categoryName}</option>
 				</c:forEach>
-			</select> 
-			<br>
-			<select class="form-control" style="width: 20%" id="searchUser" name="searchUser"  value="${searchValue}" placeHolder = "Select User to Search">
+				</select> 
+			
+			 </td>
+			<td >
+				<input  type="button" value="Cat Search" class="btn btn-warning" style="margin-left:15px;" onclick="searchBoards('CATEGORY');">
+			</td>
+			
+			<td >
+				<div style="margin-left:35px;">
+				<select class="form-control" style="width: 100%" id="searchUser"  name="searchUser"  value="${searchValue}" placeHolder = "Select User to Search" >
 				<option value="">Select User to Search</option>
 				<c:forEach items="${Users}" var="userId">
 					<option value="${userId}" ${userId == searchValue ? 'selected="selected"' : ''}>${userId}</option>
 				</c:forEach>
-			</select><br>
+				</select>
+				</div>
+			 </td>
+			<td>
+				<input type="button" value="User Search" class="btn btn-warning" style="margin-left:15px;" onclick="searchBoards('USER');">
+				
+			</td>
+			</tr>
+			
+			</table>
+			
+			<br>
+			<br>
 
-			<input type="button" value="Cat Search" class="btn btn-warning" onclick="searchBoards('CATEGORY');">
-			<input type="button" value="User Search" class="btn btn-warning" onclick="searchBoards('USER');"> 
+			
+			 
 			<c:if test="${searchType == 'USER'}">
 				<input type="button" value="Ask Private Board Access" class="btn btn-warning" onclick="createRequest('/snippetshare/viewAccess', {boardOwner:'${searchValue}'}, 'post');">
 			</c:if>
 		</div>
 
 		<div>
-			<div class="col-md-12">
-				<h1>
+			<div class="col-md-12" style="margin-left:-35px">
+				<h3>
 					<c:if test="${searchValue != ''}">
 						<strong>${welcomeMsg}</strong>
 					</c:if>
 					
 					
-				</h1>
+				</h3>
 			</div>
 		</div>
 		
@@ -83,10 +105,10 @@
 							}
 					%>
 
-					<div class="col-sm-4">
+					<div class="col-sm-4" style="width:25%;">
 						<div class="tile green">
 							<h3 class="title">
-								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+								<a style="color:white" href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
 									<c:out value="${e.boardName }"></c:out>
 								</a>
 							</h3>
@@ -127,10 +149,10 @@
 							}
 					%>
 
-					<div class="col-sm-4">
+					<div class="col-sm-4" style="width:25%;">
 						<div class="tile purple">
 							<h3 class="title">
-								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+								<a style="color:white" href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
 									<c:out value="${e.boardName }"></c:out>
 								</a>
 							</h3>

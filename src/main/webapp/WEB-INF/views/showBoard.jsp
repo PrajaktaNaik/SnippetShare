@@ -167,10 +167,10 @@ h2, h3 {
 	background:url('../img/menuActive.jpg') repeat-x;
 	color:#FFFFFF;
 }
-
+/* 
 body {
 background: #E9E9E9;
-}
+} */
 #blog-landing {
 margin-top: 10px;
 position: relative;
@@ -218,15 +218,25 @@ transition: all 0.3s ease-in-out;
 <div>
  <div id="container">
     <!-- begin #header -->
+      <%
+    String userId="";
+    if(session.getAttribute("userId")!=null){
+    	userId=(String)session.getAttribute("userId");
+    }
+  
+    %>
     <div id="header">
     
     	<h1><a href=""><span> </span> <span> </span> <span> </span> <span> </span> <span> </span> <span> </span><span> </span>
                                                 SNIPPETSHARE </a></h1>
         <div class="submenu">
             <ul>
-               <li><input type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
+             <li style="text-decoration: none;  padding-right: 10px;  color: #999999;  padding-top: 10px;  text-transform: uppercase;">
+            <%=userId %>
+            </li>
+               <li><input class="btn" type="button" value="PENDING" onclick="createRequest('/snippetshare/viewPendingRequests', {}, 'post');">&nbsp;&nbsp;</li>
                 <!-- <li><a href="#">PENDING RE</a></li> -->
-            <li><input type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>
+            <li><input class="btn" type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>
             </ul>
         </div>
         <div class="clearfloat"></div>

@@ -40,12 +40,12 @@
 <div id="header" class="header"></div>
 	<div class="container">
 
-		<div>
-			<div class="col-md-12">
+		<div >
+			<div class="col-md-12" style="margin-left: -30px;">
 				<h1>
 					<strong><input
 						data-toggle="modal" data-target="#myModal" type="button"
-						value="Create" class="btn btn-warning"></strong>
+						value="New Board" class="btn"></strong>
 				</h1>
 			</div>
 		</div>
@@ -70,10 +70,10 @@
 							}
 					%>
 
-					<div class="col-sm-4">
-						<div class="tile green">
+					<div class="col-sm-4" style="width:25%;">
+						<div class="tile orange">
 							<h3 class="title">
-								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+								<a style="color:white" href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
 									<c:out value="${e.boardName }"></c:out>
 								</a>
 							</h3>
@@ -103,7 +103,7 @@
 		</c:if>
 
 		<c:if test="${privateBoards.size() > 0 }">
-		<div>
+		<div style="margin-left: -30px;">
 			<span class="label label-primary">Private Boards</span><br> <br>
 			<%
 				int prev = 0;
@@ -121,10 +121,10 @@
 							}
 					%>
 
-					<div class="col-sm-4">
+					<div class="col-sm-4" style="width:25%;">
 						<div class="tile purple">
 							<h3 class="title">
-								<a href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
+								<a style="color:white" href="/snippetshare/showSnippets/<c:out value="${e.boardId }"></c:out>">
 									<c:out value="${e.boardName }"></c:out>
 								</a>
 							</h3>
