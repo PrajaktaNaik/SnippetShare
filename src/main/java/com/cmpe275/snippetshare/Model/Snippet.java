@@ -10,6 +10,8 @@ public class Snippet {
 	private int noOfLikes;
 	private List<Comment> comments;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public long getSnippetId() {
 		return snippetId;
 	}
@@ -40,6 +42,8 @@ public class Snippet {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
+//	----------------------------------------------------------------------------------------
 
 	@Override
 	public String toString() {

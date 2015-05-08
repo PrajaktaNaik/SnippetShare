@@ -10,6 +10,8 @@ public class SnippetSequence {
 	private String snipCounterId;
 	private long sequence;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public String getSnipCounterId() {
 		return snipCounterId;
 	}
@@ -21,5 +23,13 @@ public class SnippetSequence {
 	}
 	public void setSequence(long sequence) {
 		this.sequence = sequence;
+	}
+
+//	----------------------------------------------------------------------------------------
+	
+	@Override
+	public String toString() {
+		return "SnippetSequence [snipCounterId=" + snipCounterId
+				+ ", sequence=" + sequence + "]";
 	}
 }

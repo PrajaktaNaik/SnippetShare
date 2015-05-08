@@ -13,6 +13,8 @@ public class RequestMapper {
 	private String boardId;
 	private String status;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public String getId() {
 		return id;
 	}
@@ -43,6 +45,9 @@ public class RequestMapper {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+//	----------------------------------------------------------------------------------------
+	
 	@Override
 	public String toString() {
 		return "RequestMapper [id=" + id + ", ownerId=" + ownerId

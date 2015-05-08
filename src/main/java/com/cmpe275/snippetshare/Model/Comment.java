@@ -6,6 +6,8 @@ public class Comment {
 	private String content;
 	private String userName;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public long getCommentId() {
 		return commentId;
 	}
@@ -19,13 +21,16 @@ public class Comment {
 		this.content = content;
 	}
 	
-	
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
+//	----------------------------------------------------------------------------------------
+	
 	@Override
 	public String toString() {
 		return "Comment [commentId=" + commentId + ", content=" + content

@@ -16,6 +16,8 @@ public class User {
 	private String profilePicture;
 	private String fullName;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public String getProfilePicture() {
 		return profilePicture;
 	}
@@ -54,6 +56,9 @@ public class User {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+	
+//	----------------------------------------------------------------------------------------
+	
 	@Override
 	public String toString() {
 		return "User [email=" + email + ", password=" + password

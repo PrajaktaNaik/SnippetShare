@@ -1,5 +1,7 @@
 package com.cmpe275.snippetshare.Model;
 
+import java.util.Arrays;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ public class Image {
 	private String id;
 	private String empName;
 	private byte[] image;
+	
+//	----------------------------------------------------------------------------------------
 	
 	public String getId() {
 		return id;
@@ -28,5 +32,13 @@ public class Image {
 	}
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+	
+//	----------------------------------------------------------------------------------------
+	
+	@Override
+	public String toString() {
+		return "Image [id=" + id + ", empName=" + empName + ", image="
+				+ Arrays.toString(image) + "]";
 	}
 }

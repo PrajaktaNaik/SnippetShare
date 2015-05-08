@@ -10,6 +10,8 @@ public class CommentSequence {
 	private String commentCounterId;
 	private long sequence;
 	
+//	----------------------------------------------------------------------------------------
+	
 	public String getCommentCounterId() {
 		return commentCounterId;
 	}
@@ -21,5 +23,13 @@ public class CommentSequence {
 	}
 	public void setSequence(long sequence) {
 		this.sequence = sequence;
+	}
+	
+//	----------------------------------------------------------------------------------------
+	
+	@Override
+	public String toString() {
+		return "CommentSequence [commentCounterId=" + commentCounterId
+				+ ", sequence=" + sequence + "]";
 	}
 }
