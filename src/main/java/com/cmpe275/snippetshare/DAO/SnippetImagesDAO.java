@@ -11,10 +11,13 @@ import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class SnippetImagesDAO {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void addImage(SnippetImages image){
-		
 		MongoConfig.getMongoOperationsObj().save(image);
 	}
+
+//	----------------------------------------------------------------------------------------------------
 	
 	public static List<SnippetImages> getSnippetImages(List<Long> imageIds){
 		Query query=new Query();
@@ -24,6 +27,8 @@ public class SnippetImagesDAO {
 		return allImages==null?(new ArrayList<SnippetImages>()):allImages;
 	}
 	
+//	----------------------------------------------------------------------------------------------------
+	
 	public static SnippetImages getImage(Long imageId){
 		Query query=new Query();
 		query.addCriteria(Criteria.where("imageId").in(imageId));
@@ -32,8 +37,9 @@ public class SnippetImagesDAO {
 		return imageGot==null?(new SnippetImages()):imageGot;
 	}
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void deleteImage(Long imageId) {
-		// TODO Auto-generated method stub
 		Query query=new Query();
 		query.addCriteria(Criteria.where("imageId").in(imageId));
 		MongoConfig.getMongoOperationsObj().remove(query, SnippetImages.class);

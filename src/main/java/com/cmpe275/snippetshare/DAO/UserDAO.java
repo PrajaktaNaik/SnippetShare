@@ -13,11 +13,14 @@ public class UserDAO {
 
 	static MongoOperations mongoOperation = null;
 	
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void saveUser(User user)throws Exception {
 		mongoOperation = MongoConfig.getMongoOperationsObj();
 		mongoOperation.save(user);
-		System.out.println("User" + user.toString());
 	}
+
+//	----------------------------------------------------------------------------------------------------
 	
 	public static boolean is_user_exists(User user)throws Exception {
 		mongoOperation = MongoConfig.getMongoOperationsObj();
@@ -32,18 +35,20 @@ public class UserDAO {
 			return true;
 	}
 	
+//	----------------------------------------------------------------------------------------------------
+	
 	public static boolean is_user_email_exists(User user)throws Exception {
 		mongoOperation = MongoConfig.getMongoOperationsObj();
 		Query searchUserQuery = new Query(Criteria.where("email").is(user.getEmail()));
 		User userdata= mongoOperation.findOne(searchUserQuery,User.class,"user");
 		if(userdata==null){
-			System.out.println("New user, Ready to sign up");
 			return true;
 		}
 		else
-			System.out.println("User Already exists. Login please");
 			return false;
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 
 	public static List<User> getAllUsers(String currentUser)throws Exception {
 		Query query = new Query();

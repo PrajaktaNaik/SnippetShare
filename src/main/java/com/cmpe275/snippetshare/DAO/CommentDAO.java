@@ -16,11 +16,10 @@ import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class CommentDAO {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void addComment(String boardId, long snippetId,
 			Comment comment)throws Exception {
-		/*List<Comment> commentList = getAllComments(boardId, snippetId);
-		commentList.add(comment);*/
-		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("boardId").is(boardId));
 		query.addCriteria(Criteria.where("snippets.snippetId").is(snippetId));
@@ -32,6 +31,8 @@ public class CommentDAO {
 		
 	}
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static List<Comment> getAllComments(String boardId, long snippetId) throws Exception{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("boardId").is(boardId));
@@ -50,6 +51,8 @@ public class CommentDAO {
 		
 		return (commentList!=null ? commentList : new ArrayList<Comment>());
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 	
 	public static long getNextCommentId(String key)throws Exception{
 		  Query query = new Query(Criteria.where("_id").is(key));

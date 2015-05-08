@@ -13,11 +13,14 @@ import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class BoardDAO {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void saveBoard(Board board) throws Exception{
 		MongoConfig.getMongoOperationsObj().save(board);
-		System.out.println("Board Created Successfully");
 	}
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void updateBoard(Board board)throws Exception {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("boardId").is(board.getBoardId()));
@@ -32,6 +35,8 @@ public class BoardDAO {
 		MongoConfig.getMongoOperationsObj().findAndModify(query, update, Board.class);
 	}
 	
+//	----------------------------------------------------------------------------------------------------
+	
 	public static List<Board> getBoards(User user) throws Exception{
 		Query query=new Query();
 		query.addCriteria(Criteria.where("ownerId").is(user.getEmail()));
@@ -41,6 +46,8 @@ public class BoardDAO {
 		return allBoards;
 		
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 
 	public static List<String> getSharedUser(String boardId)throws Exception {
 		Query query = new Query();
@@ -51,10 +58,14 @@ public class BoardDAO {
 		return (board.getSharedWith() != null ? board.getSharedWith() : new ArrayList<String>());
 	}
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void deleteBoard(String boardId)throws Exception {
 		Query query = new Query(Criteria.where("boardId").is(boardId));
 		MongoConfig.getMongoOperationsObj().remove(query, Board.class);
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 	
 	//Key will be either categoryId or ownerId and value will be respective value
 	public static List<Board> getBoardsByType(String key, String value, String boardType)throws Exception{
@@ -68,13 +79,13 @@ public class BoardDAO {
 		return (boardList != null ? boardList : new ArrayList<Board>());
 	}
 	
+//	----------------------------------------------------------------------------------------------------
+	
 	public static Board getBoardById(String boardId)throws Exception{
 		Query query = new Query(Criteria.where("boardId").is(boardId));
 		Board board = MongoConfig.getMongoOperationsObj().findOne(query, Board.class);
 		return board;
 	}
 	
-	
-	
-
+//	----------------------------------------------------------------------------------------------------
 }

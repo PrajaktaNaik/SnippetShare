@@ -15,10 +15,9 @@ import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class SnippetDAO {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void addSnippet(String boardId, Snippet snippet)throws Exception {
-		/*List<Snippet> snippetList = getAllSnippets(boardId);
-		snippetList.add(snippet);*/
-		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("boardId").is(boardId));
 		
@@ -26,8 +25,9 @@ public class SnippetDAO {
 		update.push("snippets",snippet);
 		
 		MongoConfig.getMongoOperationsObj().findAndModify(query, update, Board.class);
-		
 	}
+
+//	----------------------------------------------------------------------------------------------------
 	
 	public static List<Snippet> getAllSnippets(String boardId) throws Exception{
 		Query query = new Query();
@@ -40,6 +40,8 @@ public class SnippetDAO {
 		
 		return (snippetList!=null ? snippetList : new ArrayList<Snippet>());
 	}
+	
+//	----------------------------------------------------------------------------------------------------
 	
 	public static long getNextSnippetId(String key)throws Exception{
 		  Query query = new Query(Criteria.where("_id").is(key));
@@ -55,10 +57,11 @@ public class SnippetDAO {
 		  if (seq == null) {
 			throw new Exception("Unable to get sequence id for key : " + key);
 		  }
-	 
 		  return seq.getSequence();
 	}
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static void deleteSnippet(String snippetId,String boardId) throws Exception {
 		// TODO Auto-generated method stub
 		List<Snippet> allSnippets=getAllSnippets(boardId);
@@ -74,5 +77,4 @@ public class SnippetDAO {
 		update.set("snippets",newList);
 		MongoConfig.getMongoOperationsObj().updateFirst(query, update, Board.class);
 	}
-
 }

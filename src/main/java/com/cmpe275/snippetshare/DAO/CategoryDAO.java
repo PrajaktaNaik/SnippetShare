@@ -7,9 +7,12 @@ import com.cmpe275.snippetshare.Utility.MongoConfig;
 
 public class CategoryDAO {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	public static List<Category> getAllCategories() throws Exception{
 		List<Category> categories = MongoConfig.getMongoOperationsObj().findAll(Category.class);
 		return categories;
 	}
 
+//	----------------------------------------------------------------------------------------------------
 }
