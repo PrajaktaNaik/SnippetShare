@@ -1,6 +1,5 @@
 package com.cmpe275.snippetshare.VO;
 
-import com.cmpe275.snippetshare.Model.Snippet;
 
 public class SnippetVO {
 

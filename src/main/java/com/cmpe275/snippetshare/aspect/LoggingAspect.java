@@ -11,6 +11,8 @@ import com.cmpe275.snippetshare.Utility.ApplicationConstants;
 @Aspect
 public class LoggingAspect {
 
+//	----------------------------------------------------------------------------------------------------
+	
 	// If user is not in session return false else return true
 	@Before("execution(* com.cmpe275.snippetshare.Manager.BoardManager.*(..)) && args(session,..)")
 		public static boolean checkUserLoggedIn(JoinPoint joinpoint, HttpSession session){
@@ -23,6 +25,8 @@ public class LoggingAspect {
 			else
 				return true;
 		}
+	
+//	----------------------------------------------------------------------------------------------------
 	
 		public static String getLoggedInUser(HttpSession session){
 			Object userId = session.getAttribute(ApplicationConstants.USER_ID_SESSION);
