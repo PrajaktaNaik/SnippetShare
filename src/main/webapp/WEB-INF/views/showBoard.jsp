@@ -8,9 +8,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>  
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet">
-<link href="<c:url value="/resources/css/fileinput.css" />" rel="stylesheet">
+<%-- <link href="<c:url value="/resources/css/boards.css" />" rel="stylesheet"> --%>
+<%-- <link href="<c:url value="/resources/css/fileinput.css" />" rel="stylesheet"> --%>
 <script src="<c:url value="/resources/js/common.js" />" ></script>
 <title>Board</title>
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -211,6 +212,7 @@ transition: all 0.3s ease-in-out;
 
 			
 		</script>
+		<link href="<c:url value="/resources/css/cssmenu.css" />" rel="stylesheet">
 </head>
 <!-- NAVBAR
 ================================================== -->
@@ -239,7 +241,7 @@ transition: all 0.3s ease-in-out;
             <li><input class="btn" type="button" value="LOGOUT" onclick="createRequest('/snippetshare/logout', {}, 'post');"></li>
             </ul>
         </div>
-        <div class="clearfloat"></div>
+       <!--  <div class="clearfloat"></div>
         <div id="navcontainer" style="height: 25px;">
             <ul id="navlist">
              
@@ -250,7 +252,20 @@ transition: all 0.3s ease-in-out;
                 <li><a href="/snippetshare/contact">CONTACT</a></li>
                 
             </ul>
-        </div>
+        </div> -->
+        	<div id='cssmenu'>
+				<ul>
+					<!-- <li class='active'><a href='#'>Home</a></li>
+					<li><a href='#'>Products</a></li>
+					<li><a href='#'>Company</a></li>
+					<li><a href='#'>Contact</a></li> -->
+					<li><a href="/snippetshare/boards">MY BOARDS</a></li>
+					<li><a href="/snippetshare/viewSearchBoards">SEARCH BOARDS</a></li>
+					<li><a href="/snippetshare/aboutUs">ABOUT US </a></li>
+
+					<li><a href="/snippetshare/contact">CONTACT</a></li>
+				</ul>
+			</div>
         
     </div>
         
@@ -349,6 +364,7 @@ transition: all 0.3s ease-in-out;
  
         });
     </script>
+    
 </body>
 <script type="text/javascript">
 

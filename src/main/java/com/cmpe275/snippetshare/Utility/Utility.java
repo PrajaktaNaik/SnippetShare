@@ -1,18 +1,20 @@
 package com.cmpe275.snippetshare.Utility;
 
 import java.security.MessageDigest;
-import com.mongodb.util.Base64Codec;
 
+import org.apache.commons.codec.binary.Base64;
+
+import com.mongodb.util.*;
 public class Utility {
-	
-	//Method to encrypt the given plain text
-	public static String getEncryptedValue(String plainText){
+
+	// Method to encrypt the given plain text
+	public static String getEncryptedValue(String plainText) {
 		String hashedValue = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			md.update(plainText.getBytes("UTF-16"));
 			byte rawByte[] = md.digest();
-			hashedValue= (new Base64Codec()).encode(rawByte);
+			hashedValue = Base64.encodeBase64URLSafeString(rawByte);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
